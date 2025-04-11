@@ -2,17 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import { BrowserRouter } from "react-router-dom";
 
-import { TempoDevtools } from "tempo-devtools";
-TempoDevtools.init();
+console.log("🔥 React sta partendo");
 
-const basename = import.meta.env.BASE_URL;
+const rootEl = document.getElementById("root");
+console.log("🔍 root element:", rootEl);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <BrowserRouter basename={basename}>
+if (rootEl) {
+  ReactDOM.createRoot(rootEl).render(
+    // <React.StrictMode>
       <App />
-    </BrowserRouter>
-  </React.StrictMode>,
-);
+    // </React.StrictMode>
+  );
+} else {
+  console.error("❌ ERRORE: elemento #root non trovato!");
+}

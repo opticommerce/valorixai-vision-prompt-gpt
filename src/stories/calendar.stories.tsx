@@ -30,7 +30,7 @@ const meta = {
 export default meta;
 
 export const Base = {
-  render: (args: any) => <Calendar {...args}>Calendar</Calendar>,
+  render: (args: unknown) => <Calendar {...args}>Calendar</Calendar>,
   args: {
     mode: "single",
     className: "rounded-md border",

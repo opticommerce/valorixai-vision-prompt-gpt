@@ -1,4 +1,3 @@
-// [build] library: 'shadcn'
 import React from "react";
 
 import { ScrollArea } from "../components/ui/scroll-area";
@@ -19,8 +18,8 @@ export const Base = {
         <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
         {Array.from({ length: 50 })
           .map((_, i, a) => `v1.2.0-beta.${a.length - i}`)
-          .map((tag) => (
-            <React.Fragment>
+          .map((tag, index) => (
+            <React.Fragment key={index} >
               <div className="text-sm" key={tag}>
                 {tag}
               </div>

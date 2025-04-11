@@ -13,11 +13,14 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-
+    
     "strict": false,
+    "jsxImportSource": "react",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "types": ["jest"],
+    "esModuleInterop": true
   },
   "include": ["src"],
   "exclude": ["src/tempobook"],

@@ -1,4 +1,4 @@
-// [build] library: 'shadcn'
+import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -16,8 +16,8 @@ const meta = {
 export default meta;
 
 export const Base = {
-  render: (args: any) => (
-    <Accordion {...args}>
+  render: (args: Record<string, unknown>) => (
+    <Accordion {...args} type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>
@@ -27,14 +27,13 @@ export const Base = {
       <AccordionItem value="item-2">
         <AccordionTrigger>Is it styled?</AccordionTrigger>
         <AccordionContent>
-          Yes. It comes with default styles that matches the other components'
-          aesthetic.
+          Yes. It comes with default styles that matches the other components&#39; aesthetic.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
         <AccordionTrigger>Is it animated?</AccordionTrigger>
         <AccordionContent>
-          Yes. It's animated by default, but you can disable it if you prefer.
+          Yes. It&#39;s animated by default, but you can disable it if you prefer.
         </AccordionContent>
       </AccordionItem>
     </Accordion>

@@ -18,15 +18,15 @@ const meta = {
 export default meta;
 
 export const Base = {
-  render: (args: any) => (
-    <Tabs {...args} className="w-[400px]">
+  render: (args: unknown) => (
+    <Tabs {...(args as Record<string, unknown>)} className="w-[400px]">
       <TabsList>
         <TabsTrigger value="account">Account</TabsTrigger>
         <TabsTrigger value="password">Password</TabsTrigger>
       </TabsList>
       <TabsContent value="account">
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Make changes to your account here. Click save when you're done.
+          Make changes to your account here. Click save when you&#39;re done.
         </p>
         <div className="grid gap-2 py-4">
           <div className="space-y-1">
@@ -44,7 +44,7 @@ export const Base = {
       </TabsContent>
       <TabsContent value="password">
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Change your password here. After saving, you'll be logged out.
+          Change your password here. After saving, you&#39;ll be logged out.
         </p>
         <div className="grid gap-2 py-4">
           <div className="space-y-1">

@@ -1,4 +1,4 @@
-// [build] library: 'shadcn'
+import React from "react";
 import { AspectRatio } from "../components/ui/aspect-ratio";
 
 const meta = {

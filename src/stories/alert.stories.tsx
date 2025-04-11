@@ -1,4 +1,4 @@
-// [build] library: 'shadcn'
+import React from "react";
 import { RocketIcon } from "@radix-ui/react-icons";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
