@@ -83,7 +83,7 @@ const Home = () => {
               {/* FAQ Item 1 */}
               <div className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl shadow-soft dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] dark:hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] hover:scale-105 transform transition-transform duration-300 ease-in-out">
                 <h3 className="text-xl font-semibold mb-3 text-primaryText dark:text-white flex items-center gap-2">
-                  <HelpCircle className="text-primary" size={20} />
+                  <HelpCircle className="text-primary w-5 h-5" />
                   <span>How does the Valorix Prompt Seller work?</span>
                 </h3>
                 <p className="text-secondaryText dark:text-gray-400 leading-relaxed">
@@ -94,7 +94,7 @@ const Home = () => {
               {/* FAQ Item 2 */}
               <div className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl shadow-soft dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] dark:hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] hover:scale-105 transform transition-transform duration-300 ease-in-out">
                 <h3 className="text-xl font-semibold mb-3 text-primaryText dark:text-white flex items-center gap-2">
-                  <HelpCircle className="text-primary" size={20} />
+                  <HelpCircle className="text-primary w-5 h-5" />
                   <span>How can I get the best results with this tool?</span>
                 </h3>
                 <p className="text-secondaryText dark:text-gray-400 leading-relaxed">
@@ -105,7 +105,7 @@ const Home = () => {
               {/* FAQ Item 3 */}
               <div className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl shadow-soft dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] dark:hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] hover:scale-105 transform transition-transform duration-300 ease-in-out">
                 <h3 className="text-xl font-semibold mb-3 text-primaryText dark:text-white flex items-center gap-2">
-                  <HelpCircle className="text-primary" size={20} />
+                  <HelpCircle className="text-primary w-5 h-5" />
                   <span>Can I edit the generated prompts?</span>
                 </h3>
                 <p className="text-secondaryText dark:text-gray-400 leading-relaxed">
@@ -116,7 +116,7 @@ const Home = () => {
               {/* FAQ Item 4 */}
               <div className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl shadow-soft dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] dark:hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] hover:scale-105 transform transition-transform duration-300 ease-in-out">
                 <h3 className="text-xl font-semibold mb-3 text-primaryText dark:text-white flex items-center gap-2">
-                  <HelpCircle className="text-primary" size={20} />
+                  <HelpCircle className="text-primary w-5 h-5" />
                   <span>Are there any limits on how many prompts I can generate?</span>
                 </h3>
                 <p className="text-secondaryText dark:text-gray-400 leading-relaxed">
@@ -127,7 +127,7 @@ const Home = () => {
               {/* FAQ Item 5 */}
               <div className="bg-white dark:bg-[#1E1E1E] p-8 rounded-xl shadow-soft dark:shadow-[0_0_0_1px_rgba(255,255,255,0.05)] hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] dark:hover:shadow-[0_0_12px_rgba(132,204,22,0.35)] hover:scale-105 transform transition-transform duration-300 ease-in-out">
                 <h3 className="text-xl font-semibold mb-3 text-primaryText dark:text-white flex items-center gap-2">
-                  <HelpCircle className="text-primary" size={20} />
+                  <HelpCircle className="text-primary w-5 h-5" />
                   <span>Will the generated prompts always be relevant?</span>
                 </h3>
                 <p className="text-secondaryText dark:text-gray-400 leading-relaxed">
