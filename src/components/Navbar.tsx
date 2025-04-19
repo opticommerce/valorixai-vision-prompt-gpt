@@ -167,12 +167,12 @@ const Navbar = ({
 
       {/* Mobile Navigation */}
       {isMenuOpen && showMenu && (
-        <div className="md:hidden bg-white dark:bg-[#1A1A1A] w-full py-4 px-4 border-t border-border dark:border-gray-600 shadow-soft dark:shadow-none">
+        <div className="md:hidden bg-white dark:bg-[#1A1A1A] w-full py-4 px-4 border-t border-gray-200 dark:border-gray-600 shadow-md">
           <div className="flex flex-col space-y-4">
             {showHomeLink && (
               <Link
                 to="/"
-                className="text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
+                className="text-black dark:text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
@@ -180,21 +180,21 @@ const Navbar = ({
             )}
             <Link
               to="/about"
-              className="text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
+              className="text-black dark:text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
               onClick={() => setIsMenuOpen(false)}
             >
               About
             </Link>
             <Link
               to="/tutorials"
-              className="text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
+              className="text-black dark:text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
               onClick={() => setIsMenuOpen(false)}
             >
               Tutorials
             </Link>
             <Link
               to="/help-center"
-              className="text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
+              className="text-black dark:text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
               onClick={() => setIsMenuOpen(false)}
             >
               Help Center
@@ -204,7 +204,7 @@ const Navbar = ({
                 toggleTheme();
                 setIsMenuOpen(false);
               }}
-              className="flex items-center gap-2 text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold text-left"
+              className="flex items-center gap-2 text-black dark:text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold text-left"
             >
               {isDark ? (
                 <>
@@ -232,7 +232,7 @@ const Navbar = ({
                   className="w-full px-8 py-4 bg-primary text-white rounded-full text-base font-semibold shadow-lg transition-all duration-300 font-inter group relative overflow-hidden"
                 >
                   <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
+                  <span className="relative z-10 group-hover:tracking-wide transition-all duration-300 text-black dark:text-white">
                     Home
                   </span>
                 </motion.button>
@@ -251,7 +251,7 @@ const Navbar = ({
                   className="w-full px-8 py-4 bg-primary text-white rounded-full text-base font-semibold shadow-lg transition-all duration-300 font-inter group relative overflow-hidden"
                 >
                   <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
+                  <span className="relative z-10 group-hover:tracking-wide transition-all duration-300 text-black dark:text-white">
                     Start Building
                   </span>
                 </motion.button>
