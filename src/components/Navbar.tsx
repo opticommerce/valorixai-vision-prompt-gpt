@@ -158,7 +158,7 @@ const Navbar = ({
             variant="ghost"
             size="icon"
             onClick={toggleMenu}
-            className="text-primary-text hover:text-accent hover:bg-secondary/80"
+          className="text-white hover:text-primary dark:text-white"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
