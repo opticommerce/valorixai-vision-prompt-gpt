@@ -2,9 +2,15 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import PromptForm from "../components/PromptGenerator/PromptForm";
 import PromptOutput from "../components/PromptGenerator/PromptOutput";
+import AuthGate from "../components/AuthGate";
 
 const PromptPage = () => {
+  const [unlocked, setUnlocked] = React.useState(false);
   const [generatedPrompt, setGeneratedPrompt] = React.useState("");
+
+  if (!unlocked) {
+    return <AuthGate onUnlock={() => setUnlocked(true)} />;
+  }
 
   return (
     <>
