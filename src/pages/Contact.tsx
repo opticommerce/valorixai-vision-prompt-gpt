@@ -11,7 +11,7 @@ const Contact = () => {
         <h1 className="text-3xl font-bold mb-6 text-center">Contact Us</h1>
         <p className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
           If you have any questions, suggestions, or feedback, we’d love to hear from you.
-          Please check back soon — we’ll be updating this page with our contact details shortly.
+          You can reach us at <a href="mailto:valorixai@gmail.com" className="text-primary underline">valorixai@gmail.com</a>. We’ll be adding our social channels soon!
         </p>
       </div>
     </div>
