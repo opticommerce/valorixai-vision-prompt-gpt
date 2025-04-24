@@ -30,7 +30,6 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
     specialFeatures: [],
     seoFocus: "",
     experienceLevel: "intermediate",
-    audience: "", // Added audience property
   });
 
   const [errors, setErrors] = useState<Partial<Record<keyof PromptFormData, string>>>({});
@@ -314,7 +313,31 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
           <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         </motion.button>
 
-  
+        <button
+          type="button"
+          onClick={() => {
+            setFormData({
+              productName: "",
+              productType: "",
+              category: "",
+              customCategory: "",
+              materials: "",
+              customMaterial: "",
+              tone: "",
+              color: "",
+              occasion: "",
+              customOccasion: "",
+              specialFeatures: [],
+              seoFocus: "",
+              experienceLevel: "intermediate",
+              modules: [],
+              generatedPrompt: undefined,
+            });
+          }}
+          className="w-full mt-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 rounded-full text-sm transition-all duration-300 font-inter"
+        >
+          Clear All Fields
+        </button>
       </form>
     </div>
   );
