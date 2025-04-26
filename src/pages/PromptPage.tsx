@@ -17,10 +17,10 @@ const PromptPage = () => {
       <Navbar logoText="ValorixAI Listing Assistant" />
       <div className="bg-[#F5F5F5] dark:bg-[#0F0F0F] text-center px-4 sm:px-8 md:px-16 pt-36 pb-12 transition-colors duration-300">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
-          Create Your Custom AI Prompt
+          Create Your Optimized Listing Text
         </h1>
         <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-          Create structured AI prompts to generate high-quality product listings effortlessly.
+          Generate structured, high-quality listing content effortlessly.
         </p>
       </div>
       <main className="flex flex-col bg-[#F5F5F5] dark:bg-[#0F0F0F] min-h-screen pt-8 px-4 sm:px-8 md:px-16 transition-colors duration-300">

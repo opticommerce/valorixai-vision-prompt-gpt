@@ -154,7 +154,7 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
       
       <h2 className="text-2xl font-bold mb-6 text-center text-secondary dark:text-white font-inter flex items-center justify-center gap-2">
         <Hammer className="h-6 w-6 text-primary" />
-        Build Your AI-Enhanced Product Prompt
+        Build Your Text Input
       </h2>
 
       <div className="mb-6 border border-gray-200 dark:border-gray-600 rounded-xl p-6 relative overflow-visible">
