@@ -14,7 +14,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({
-  logoText = "Valorix Prompt Seller",
+  logoText = "ValorixAI Listing Assistant",
   ctaText = "Start Building",
   ctaLink = "/prompt-builder",
   showMenu = true,

@@ -9,10 +9,10 @@ const About = () => {
         <div className="flex justify-center mb-6">
           <Lightbulb className="w-16 h-16 text-primary" />
         </div>
-        <h1 className="text-3xl font-bold mb-6 text-center">What is Valorix Prompt Seller?</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">What is ValorixAI Listing Assistant?</h1>
 
         <p className="text-lg mb-8 text-center">
-          Valorix Prompt Seller is your AI-powered assistant for building <strong>high-converting, SEO-ready product prompts</strong> — designed especially for platforms like Etsy, Shopify, and Creative Market.
+          ValorixAI Listing Assistant is your AI-powered assistant for building <strong>high-converting, SEO-ready product prompts</strong> — designed especially for platforms like Etsy, Shopify, and Creative Market.
         </p>
 
         <div className="space-y-10 text-base leading-relaxed">
@@ -70,7 +70,7 @@ const About = () => {
         </div>
 
         <p className="text-sm text-muted-foreground italic mt-10 mb-6">
-          *Valorix Prompt Seller is not affiliated with Etsy, Inc. Brand names are used for illustrative purposes only.
+          *ValorixAI Listing Assistant is not affiliated with Etsy, Inc. Brand names are used for illustrative purposes only.
         </p>
 
         <div className="text-center mt-8">

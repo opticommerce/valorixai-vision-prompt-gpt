@@ -10,7 +10,7 @@ const PrivacyPolicy = () => {
         </div>
         <h1 className="text-3xl font-bold mb-6 text-center">Privacy Policy</h1>
         <p className="mb-4 text-gray-800 dark:text-gray-300">
-          Valorix Prompt Seller does not collect, store, or process any personal data. The tool runs entirely on your device (client-side), meaning all information you enter stays in your browser and is never transmitted to any server.
+          ValorixAI Listing Assistant does not collect, store, or process any personal data. The tool runs entirely on your device (client-side), meaning all information you enter stays in your browser and is never transmitted to any server.
         </p>
         <p className="mb-4 text-gray-800 dark:text-gray-300">
           This prompt builder is designed to help sellers and creators on various marketplaces — including Shopify, Gumroad, Creative Market, and others — craft optimized AI prompts for product listings, descriptions, or campaigns.

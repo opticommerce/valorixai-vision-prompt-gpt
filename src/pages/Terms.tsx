@@ -12,7 +12,7 @@ const Terms = () => {
 
         <div className="space-y-6 text-gray-800 dark:text-gray-200 text-sm leading-relaxed">
           <p>
-            Welcome to <strong>Valorix Prompt Seller</strong>. By using this tool, you agree to the following Terms of Service.
+            Welcome to <strong>ValorixAI Listing Assistant</strong>. By using this tool, you agree to the following Terms of Service.
             Please read them carefully. If you disagree with any part of these terms, you must not use the tool.
           </p>
 

@@ -21,7 +21,7 @@ const Tutorials = () => {
             <BookOpen className="w-16 h-16 text-primary" />
           </div>
           <h1 className="text-4xl font-bold mb-8 text-center">
-            How to Use the Prompt Builder
+            How to Use ValorixAI Listing Assistant
           </h1>
 
           <div className="space-y-10 text-gray-800 dark:text-gray-200 text-base leading-relaxed">

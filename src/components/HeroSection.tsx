@@ -18,8 +18,8 @@ const fadeUp = {
 };
 
 const HeroSection = ({
-  title = "AI Prompt Generator to Boost Product Visibility & Sales",
-  subtitle = "Boost product visibility, attract more buyers, and dominate creative marketplaces with smarter, AI-crafted prompts.",
+  title = "Boost Your Listings and Content with Smart Writing",
+  subtitle = "Boost product visibility, attract more buyers, and dominate marketplaces with smarter, structured text inputs.",
   ctaText = "Start Building",
   onCtaClick,
 }: HeroSectionProps) => {

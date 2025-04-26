@@ -14,7 +14,7 @@ const PromptPage = () => {
 
   return (
     <>
-      <Navbar logoText="Valorix Prompt Seller" />
+      <Navbar logoText="ValorixAI Listing Assistant" />
       <div className="bg-[#F5F5F5] dark:bg-[#0F0F0F] text-center px-4 sm:px-8 md:px-16 pt-36 pb-12 transition-colors duration-300">
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-3">
           Create Your Custom AI Prompt
