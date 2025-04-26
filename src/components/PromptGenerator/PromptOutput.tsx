@@ -52,7 +52,7 @@ const PromptOutput = ({
         <div className="flex justify-between items-center mb-5">
           <h2 className="text-2xl font-semibold text-[#222] dark:text-white font-inter flex items-center gap-2">
             <ClipboardEdit size={22} className="text-brand" />
-            Your Optimized Prompt
+            Your Optimized Text Input
           </h2>
           <motion.button
             whileHover={{ scale: 1.06 }}
@@ -90,14 +90,14 @@ const PromptOutput = ({
             </motion.div>
           ) : (
             <p className="text-secondary/60 italic text-center font-inter">
-              Your generated prompt will appear here
+              Your structured product text will appear here
             </p>
           )}
         </div>
 
         <div className="mt-5 text-sm text-muted-foreground dark:text-gray-400 font-inter">
           <p>
-            Use this prompt to generate engaging product listings that boost visibility and attract buyers.
+            Use this optimized text across your preferred tools to craft high-quality product listings.
           </p>
         </div>
       </motion.div>
