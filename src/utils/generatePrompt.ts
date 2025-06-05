@@ -1,160 +1,208 @@
-import { DecisionTreeNode, decisionTree } from './decisionTreeLogic';
+import { ExtendedFormData } from "@/types/prompt";
 
-type PromptInput = {
-  productName: string;
-  productType: '' | 'physical' | 'digital';
-  productCategory?: string;
-  category?: string;
-  subCategory?: string;
-  material?: string;
-  tone?: string;
-  color?: string;
-  occasion?: string;
-  specialFeatures?: string[];
-  keywords?: string;
-  inspiration?: string;
-  uniqueSellingPoint?: string;
-  buyerStruggle?: string;
-  audience?: string;
-  modules?: string[];
-  experienceLevel?: '' | 'beginner' | 'intermediate' | 'expert';
-};
-
-function getDecisionInstructions(
-  category: string,
-  subCategory?: string
-): string[] {
-  if (!(category in decisionTree)) return [];
-
-  const tree = decisionTree[category as keyof typeof decisionTree];
-  const matchedNode = tree?.find((node) => node.subCategory === subCategory);
-  if (matchedNode) {
-    return matchedNode.instructions || [];
-  }
-
-  return [];
+function joinWithAnd(arr: string[] = []) {
+  if (!arr.length) return "";
+  if (arr.length === 1) return arr[0];
+  return arr.slice(0, -1).join(", ") + " and " + arr[arr.length - 1];
 }
 
-export function generatePrompt(input: PromptInput): string {
-  console.log("Generating prompt with input:", input);
-  
-  const {
-    productName,
-    productType,
-    productCategory,
-    category,
-    subCategory,
-    material,
-    tone,
-    color,
-    occasion,
-    specialFeatures,
-    keywords,
-    inspiration,
-    uniqueSellingPoint,
-    buyerStruggle,
-    audience,
-    modules,
-    experienceLevel,
-  } = input;
+function getValue(val: any, custom?: any) {
+  if (!val || val === "N/A") return "";
+  if (val === "Other" && custom && custom !== "N/A") return custom;
+  if (Array.isArray(val)) return joinWithAnd(val);
+  return val;
+}
 
-  const productCat = productCategory || category || '';
-  const instructions = getDecisionInstructions(productCat, subCategory);
+function uniqueNonEmpty(arr: (string | undefined)[]) {
+  return Array.from(new Set(arr.filter(Boolean)));
+}
 
-  const toneGuides: Record<string, string> = {
-    professional: "Use clear, confident, and value-driven language that establishes trust.",
-    creative: "Use expressive, engaging tone with creative flair and originality.",
-    minimal: "Write short, sleek sentences. Let simplicity and clarity be the power.",
-    technical: "Use precise, factual language focused on specifications and use cases.",
-    poetic: "Use lyrical, sensory-rich language that evokes emotion and imagery.",
-    elegant: "Use refined, graceful tone with a polished and high-end feel.",
-  };
+export function generatePrompt(input: ExtendedFormData): string {
+  const phrases: string[] = [];
 
-  const toneDescription = tone && toneGuides[tone] ? `- Tone: ${tone}\n- Style Guide: ${toneGuides[tone]}` : '';
+  // Experience level
+  if (input.experienceLevel === "beginner") {
+    phrases.push("Generate an image with a clear, literal description and minimal abstraction.");
+  } else if (input.experienceLevel === "intermediate") {
+    phrases.push("Generate an image based on a structured visual prompt, with creative freedom and stylistic elements.");
+  } else if (input.experienceLevel === "expert") {
+    phrases.push("Generate an artistic, metaphor-rich image based on an imaginative and interpretative visual prompt.");
+  }
 
-  const experienceGuides: Record<string, string> = {
-    beginner: "- Level: Beginner\n- Write clearly, use basic concepts, keep it simple and friendly.\n- Avoid jargon. Focus on guiding the reader step-by-step.",
-    intermediate: "- Level: Intermediate\n- Assume some product knowledge.\n- Use moderately technical terms and highlight practical advantages.\n- Focus on benefits that boost visibility, increase engagement, and drive more clicks.",
-    expert: "- Level: Expert\n- Use advanced language and in-depth technical details.\n- Highlight niche features and subtle value propositions.",
-  };
+  // Main subject
+  const mainSubject = getValue(input.subject);
+  if (mainSubject) {
+    phrases.push(`A detailed, cinematic depiction of ${mainSubject}`);
+  }
 
-  const levelDescription = experienceLevel && experienceGuides[experienceLevel]
-    ? `\n${experienceGuides[experienceLevel]}`
-    : '';
+  // Style, reference, universe
+  const visualStyle = getValue(input.visualStyle, input.visualStyleOther);
+  const visualReferenceStyle = getValue(input.visualReferenceStyle);
+  const universeStyles = uniqueNonEmpty([
+    ...(Array.isArray(input.visualUniverseStyle) ? input.visualUniverseStyle : []),
+    input.visualUniverseStyleOther
+  ]);
+  const universe = joinWithAnd(universeStyles);
+  const styleParts = [];
+  if (visualStyle && visualStyle !== visualReferenceStyle) styleParts.push(`${visualStyle} style`);
+  if (visualReferenceStyle) styleParts.push(`inspired by ${visualReferenceStyle}`);
+  if (universe) styleParts.push(`with elements from universes like ${universe}`);
 
-  const basePrompt = [
-    `Act as a senior ecommerce copywriter. Write a structured prompt to generate high-converting product listings.`,
-    `### 1. Product Title`,
-    `- Include key material, emotional cue, or benefit`,
-    `- Max 140 characters, no punctuation`,
-    ``,
-    `### 2. Product Description`,
-    `- 2–3 short paragraphs or bullet points`,
-    `- Open with an emotional hook`,
-    `- Highlight what makes it unique and desirable`,
-    ``,
-    `### 3. SEO Tags`,
-    `- 13 long-tail keywords, comma-separated`,
-    `- Use relevant search terms for discovery`,
-    ``,
-    `Product Information:`,
-    productName ? `- Name: ${productName}` : '',
-    `- Type: ${productType === 'physical' ? 'Physical' : 'Digital'}`,
-    `- Category: ${productCat}`,
-    subCategory ? `- Subcategory: ${subCategory}` : '',
-    material ? `- Material: ${material}` : '',
-    color ? `- Color: ${color}` : '',
-    occasion ? `- Occasion: ${occasion}` : '',
-    toneDescription,
-    levelDescription,
-    specialFeatures?.length ? `- Features: ${specialFeatures.join(', ')}` : '',
-    keywords ? `- SEO Keywords: ${keywords}` : '',
-    inspiration ? `- Inspired by: ${inspiration}` : '',
-    uniqueSellingPoint ? `- Unique Angle: ${uniqueSellingPoint}` : '',
-    buyerStruggle ? `- Customer Problem: ${buyerStruggle}` : '',
-    audience ? `- Target Audience: ${audience}` : '',
-    instructions.length ? `\nContextual Tips:\n${instructions.map(i => `- ${i}`).join('\n')}` : ''
-  ].filter(Boolean).join('\n');
+  // Lighting
+  const lighting = getValue(input.lighting, input.lightingOther);
+  const lightingStyle = getValue(input.lightingStyle);
+  const lightingCombined = uniqueNonEmpty([lighting, lightingStyle]);
+  if (lightingCombined.length) styleParts.push(`lit by ${joinWithAnd(lightingCombined)}`);
 
-  const modulesSection = modules?.length
-    ? `\n\n---\n\nAdditional Prompt Modules:\n\n` + modules.map((mod) => {
-      const moduleContent: Record<string, { title: string; body: string }> = {
-        seo: {
-          title: "SEO Optimization",
-          body: "Use long-tail search phrases that ideal buyers would type. No keyword stuffing.",
-        },
-        emotional: {
-          title: "Emotional Hook",
-          body: "Start with a phrase that evokes emotion — aspiration, identity, nostalgia.",
-        },
-        visual: {
-          title: "Visual Description",
-          body: "Describe the visual and sensory experience of the product clearly and vividly.",
-        },
-        conversion: {
-          title: "Conversion Layer",
-          body: "Mention benefits like instant delivery, platform compatibility, or limited availability.",
-        },
-        social: {
-          title: "Social Caption",
-          body: "Add a short Instagram-style caption with light emojis and one strong hashtag.",
-        },
-        audience: {
-          title: "Target Audience",
-          body: "Define who this product is perfect for. Example: Busy moms, minimalist designers, Gen Z students.",
-        },
-      };
-      const content = moduleContent[mod];
-      return content ? `### [${content.title}]\n${content.body}` : '';
-    }).join('\n\n')
-    : '';
+  // Mood
+  const mood = getValue(input.mood, input.moodOther);
+  const moodTone = getValue(input.moodTone);
+  const moodCombined = uniqueNonEmpty([mood, moodTone]);
+  if (moodCombined.length) styleParts.push(`with a ${joinWithAnd(moodCombined).toLowerCase()} atmosphere`);
 
-  const competitiveEdgeSection =
-    experienceLevel === "expert"
-      ? `\n\n### [Competitive Edge]\nInclude subtle differentiators that separate this listing from others in the same niche.`
-      : '';
+  // Color palette
+  const colorPalette = getValue(input.colorPalette, input.colorPaletteOther);
+  const imageColorPalette = getValue(input.imageColorPalette);
+  const paletteCombined = uniqueNonEmpty([colorPalette, imageColorPalette]);
+  if (paletteCombined.length) styleParts.push(`featuring ${joinWithAnd(paletteCombined).toLowerCase()} tones`);
 
-  const footer = `\n\n---\n\nMake sure the output is fully formatted in Markdown, clearly separated into sections.`;
+  // Scene type
+  const sceneType = getValue(input.sceneType);
+  if (sceneType) styleParts.push(`set in a ${sceneType} scene`);
 
-  return `${basePrompt}${modulesSection}${competitiveEdgeSection}${footer}`.trim();
+  if (styleParts.length) {
+    phrases.push(styleParts.join(", ") + ".");
+  }
+
+  // Camera angle, lighting mood
+  const cameraAngle = getValue(input.cameraAngle);
+  const lightingMood = getValue(input.lightingMood);
+  if (cameraAngle || lightingMood) {
+    phrases.push([
+      cameraAngle ? `Camera angle: ${cameraAngle}` : null,
+      lightingMood ? `Lighting mood: ${lightingMood}` : null
+    ].filter(Boolean).join(". "));
+  }
+
+  // Texture, detail, quality, medium, technique
+  const texture = getValue(input.textureStyle);
+  const detail = getValue(input.detailLevel);
+  const quality = getValue(input.qualityLevel);
+  const artMedium = getValue(input.artMedium);
+  const technique = getValue(input.technique);
+  const mixedTechnique = getValue(input.mixedTechnique);
+  const artTechnique = getValue(input.artTechnique);
+  const techniqueParts = uniqueNonEmpty([artMedium, technique, mixedTechnique, artTechnique]);
+  if (texture) phrases.push(`The textures appear ${texture.toLowerCase()}.`);
+  if (detail) phrases.push(`The scene is rendered in ${detail.toLowerCase()} resolution.`);
+  if (techniqueParts.length) {
+    phrases.push(`Created using ${joinWithAnd(techniqueParts)} techniques.`);
+  }
+  if (quality) phrases.push(`Quality: ${quality}.`);
+
+  // Format
+  const format = getValue(input.format);
+  const imageFormat = getValue(input.imageFormat);
+  const formatCombined = uniqueNonEmpty([format, imageFormat]);
+  if (formatCombined.length) phrases.push(`The image format is ${joinWithAnd(formatCombined)}.`);
+
+  // Composition
+  const composition = getValue(input.composition) === "Other" ? getValue(input.compositionOther) : getValue(input.composition);
+  const compositionType = getValue(input.compositionType);
+  const compositionCombined = uniqueNonEmpty([composition, compositionType]);
+  if (compositionCombined.length) {
+    phrases.push(`The environment is composed using ${joinWithAnd(compositionCombined)}.`);
+  }
+
+  // Context/setting
+  const context = getValue(input.context);
+  const imageContext = getValue(input.imageContext);
+  const contextCombined = uniqueNonEmpty([context, imageContext]);
+  if (contextCombined.length) phrases.push(`Set in ${joinWithAnd(contextCombined)}.`);
+
+  // Focal point
+  const focalPoint = getValue(input.focalPoint) === "Other" ? getValue(input.focalPointOther) : getValue(input.focalPoint);
+  if (focalPoint) phrases.push(`Focal point: ${focalPoint}.`);
+
+  // Transformation
+  const transformationTarget = getValue(input.transformationTarget);
+  const transformationType = getValue(input.transformationType);
+  const modificationLevel = getValue(input.modificationLevel);
+  if (transformationTarget || transformationType || modificationLevel) {
+    phrases.push([
+      transformationTarget ? `Transformation target: ${transformationTarget}` : null,
+      transformationType ? `Type: ${transformationType}` : null,
+      modificationLevel ? `Level: ${modificationLevel}` : null
+    ].filter(Boolean).join(". "));
+  }
+
+  // Remove element
+  const elementToRemove = getValue(input.elementToRemove);
+  if (elementToRemove) phrases.push(`Remove: ${elementToRemove}.`);
+
+  // Emotion
+  const imageEmotion = getValue(input.imageEmotion);
+  if (imageEmotion) phrases.push(`Aim to evoke a feeling of ${imageEmotion.toLowerCase()}.`);
+
+  // Custom comment
+  const customComment = getValue(input.customComment);
+  if (customComment) phrases.push(`Additional notes: ${customComment}`);
+
+  // Era, narrative, context
+  const historicalEra = getValue(input.historicalEra);
+  const narrativeContext = getValue(input.narrativeContext);
+  const narrativeCustomEra = getValue(input.narrativeCustomEra);
+  if (historicalEra) phrases.push(`Set during the ${historicalEra} period.`);
+  if (narrativeContext) phrases.push(`The story unfolds during the ${narrativeContext.toLowerCase()} era.`);
+  if (narrativeCustomEra) phrases.push(`The scene reflects the historical setting of ${narrativeCustomEra}.`);
+
+  // Extra/Additional elements
+  const extraElements = uniqueNonEmpty(Array.isArray(input.extraElements) ? input.extraElements : typeof input.extraElements === 'string' ? [input.extraElements] : []);
+  const additionalElements = uniqueNonEmpty(Array.isArray(input.additionalElements) ? input.additionalElements : typeof input.additionalElements === 'string' ? [input.additionalElements] : []);
+  if (extraElements.length) {
+    phrases.push(`Details like ${joinWithAnd(extraElements)} enrich the scene.`);
+  }
+  if (additionalElements.length) {
+    phrases.push(`Additional elements like ${joinWithAnd(additionalElements)} are present in the scene.`);
+  }
+
+  // Creative/boost fields
+  const surrealEffects = uniqueNonEmpty([
+    ...(Array.isArray(input.surrealEffects) ? input.surrealEffects : []),
+    ...(Array.isArray(input.surrealEffectsImage) ? input.surrealEffectsImage : [])
+  ]);
+  const rareTextures = uniqueNonEmpty([
+    ...(Array.isArray(input.rareTextures) ? input.rareTextures : []),
+    ...(Array.isArray(input.rareTexturesImage) ? input.rareTexturesImage : [])
+  ]);
+  const specialLights = uniqueNonEmpty(Array.isArray(input.specialLights) ? input.specialLights : []);
+  const lightAndSpecialEffects = uniqueNonEmpty(Array.isArray(input.lightAndSpecialEffects) ? input.lightAndSpecialEffects : []);
+  const atmosphericEffects = uniqueNonEmpty(Array.isArray(input.atmosphericEffects) ? input.atmosphericEffects : []);
+  const narrativeElements = uniqueNonEmpty(Array.isArray(input.narrativeElements) ? input.narrativeElements : []);
+  const emotionalTriggers = uniqueNonEmpty(Array.isArray(input.emotionalTriggers) ? input.emotionalTriggers : []);
+  const creativeMetaphor = getValue(input.creativeMetaphor);
+
+  // Combine all boost/atmospheric/special fields for a varied, cinematic phrasing
+  const boostLines = [];
+  if (surrealEffects.length) boostLines.push(`surreal effects like ${joinWithAnd(surrealEffects)}`);
+  if (rareTextures.length) boostLines.push(`rare textures such as ${joinWithAnd(rareTextures)}`);
+  if (specialLights.length) boostLines.push(`special lighting such as ${joinWithAnd(specialLights)}`);
+  if (lightAndSpecialEffects.length) boostLines.push(`special lighting effects like ${joinWithAnd(lightAndSpecialEffects)}`);
+  if (atmosphericEffects.length) boostLines.push(`atmospheric details such as ${joinWithAnd(atmosphericEffects)}`);
+  if (narrativeElements.length) boostLines.push(`symbolic objects like ${joinWithAnd(narrativeElements)}`);
+  if (emotionalTriggers.length) boostLines.push(`emotional undertones of ${joinWithAnd(emotionalTriggers)}`);
+  if (boostLines.length) {
+    phrases.push(`To enhance its impact, include ${boostLines.join(", ")}.`);
+  }
+  if (creativeMetaphor) {
+    phrases.push(`Think of the scene as: "${creativeMetaphor}".`);
+  }
+
+  // Negative prompt
+  const negativePrompt = getValue(input.negativePrompt);
+  if (negativePrompt) {
+    phrases.push(`Avoid elements such as: ${negativePrompt}.`);
+  }
+
+  return phrases.filter(Boolean).join(" ");
 }

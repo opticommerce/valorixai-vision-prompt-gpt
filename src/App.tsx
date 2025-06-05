@@ -9,6 +9,7 @@ import Tutorials from "./pages/Tutorials";
 import Contact from "./pages/Contact";
 import PromptPage from "./pages/PromptPage"; // Importa la pagina del prompt builder
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Examples from "./pages/examples";
 import MainLayout from "./layouts/MainLayout";
 import MinimalLayout from "./layouts/MinimalLayout";
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/tutorials" element={<MainLayout><Tutorials /></MainLayout>} />
         <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
         <Route path="/prompt-builder" element={<MinimalLayout><PromptPage /></MinimalLayout>} />
+        <Route path="/examples" element={<MainLayout><Examples /></MainLayout>} />
         <Route path="*" element={<div>404 - Pagina non trovata</div>} />
       </Routes>
     </Router>

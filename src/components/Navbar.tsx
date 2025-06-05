@@ -14,7 +14,7 @@ interface NavbarProps {
 }
 
 const Navbar = ({
-  logoText = "ValorixAI Listing Assistant",
+  logoText = "ValorixAI Vision Prompt GPT",
   ctaText = "Start Building",
   ctaLink = "/prompt-builder",
   showMenu = true,
@@ -87,6 +87,12 @@ const Navbar = ({
               className="text-white hover:text-primary transition-colors duration-200 font-inter font-semibold"
             >
               Tutorials
+            </Link>
+            <Link
+              to="/examples"
+              className="text-white hover:text-primary transition-colors duration-200 font-inter font-semibold"
+            >
+              Examples
             </Link>
             <Link
               to="/help-center"
@@ -191,6 +197,13 @@ const Navbar = ({
               onClick={() => setIsMenuOpen(false)}
             >
               Tutorials
+            </Link>
+            <Link
+              to="/examples"
+              className="text-black dark:text-white hover:text-primary transition-colors duration-200 py-2 font-inter font-semibold"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Examples
             </Link>
             <Link
               to="/help-center"

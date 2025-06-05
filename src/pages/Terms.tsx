@@ -12,14 +12,14 @@ const Terms = () => {
 
         <div className="space-y-6 text-gray-800 dark:text-gray-200 text-sm leading-relaxed">
           <p>
-            Welcome to <strong>ValorixAI Listing Assistant</strong>. By using this tool, you agree to the following Terms of Service.
+            Welcome to <strong>Vision Prompt GPT</strong>. By using this tool, you agree to the following Terms of Service.
             Please read them carefully. If you disagree with any part of these terms, you must not use the tool.
           </p>
 
           <h2 className="text-xl font-semibold mt-4">1. Tool Usage</h2>
           <p>
             You are granted a <strong>non-exclusive</strong>, <strong>non-transferable</strong> license to use this tool for creating AI prompts
-            to support your own product listings. You may use the generated content for personal or commercial purposes.
+            to support your AI-based image generation and creative projects. You may use the generated content for personal or commercial purposes.
           </p>
 
           <h2 className="text-xl font-semibold mt-4">2. License and Intellectual Property</h2>
@@ -46,7 +46,7 @@ const Terms = () => {
           </p>
 
           <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-8">
-            *This product is not affiliated with, endorsed by, or officially connected with Etsy, Inc. or any other mentioned platform.
+            *This product is not affiliated with, endorsed by, or officially connected with OpenAI, Midjourney, DALL·E, or any other external AI platforms.
           </p>
         </div>
       </div>

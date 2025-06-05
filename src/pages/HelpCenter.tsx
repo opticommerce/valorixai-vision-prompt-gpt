@@ -14,43 +14,40 @@ const HelpCenter = () => {
           <div>
             <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white flex items-center gap-2">
               <Settings className="w-5 h-5 text-primary" />
-              Getting Started: How does the Prompt Builder work?
+              Getting Started: How does Vision Prompt GPT work?
             </h2>
             <p>
-              Simply enter your product details, select optional sections like SEO tags or storytelling, and click <strong>“Generate Prompt”</strong>. 
-              The tool will create a complete AI prompt — formatted and ready to paste into ChatGPT, Claude, or Gemini.
+              Vision Prompt GPT lets you create visual prompts for AI image generation. Choose between <strong>"Prompt from Text"</strong> for custom-made prompts, or <strong>"Prompt from Image"</strong> to analyze an uploaded image and transform it into a detailed prompt. Paste the generated prompt into ChatGPT to create powerful images — no prompt-engineering skills needed.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white flex items-center gap-2">
               <Upload className="w-5 h-5 text-primary" />
-              Can I use the prompts for Etsy, Creative Market, etc.?
+              How do I use an image to generate a prompt?
             </h2>
             <p>
-              Yes! The prompts are designed to help sellers create better listings on platforms like <strong>Etsy, Creative Market, Gumroad, Shopify</strong> and more.
-              They generate SEO-ready titles, descriptions, and tags.
+              Upload your image into ChatGPT and then activate the <strong>"Prompt from Image"</strong> mode in Vision Prompt GPT. The tool will analyze the visual features and generate a stylistically coherent and creative prompt you can reuse or customize.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white flex items-center gap-2">
               <Tag className="w-5 h-5 text-primary" />
-              What kind of products is this best for?
+              Can I use these prompts in commercial projects?
             </h2>
             <p>
-              Valorix works great for <strong>digital goods</strong> like planners, templates, or printables — and also for <strong>physical products</strong> like jewelry, home decor, or art prints.
+              Yes — once generated, prompts are yours to use in any commercial context: marketing visuals, personal projects, digital products, and more.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white flex items-center gap-2">
               <Repeat className="w-5 h-5 text-primary" />
-              Can I reuse prompts or save them?
+              Can I reuse or modify prompts?
             </h2>
             <p>
-              Absolutely. You can tweak one prompt for similar items, or generate a fresh one for every product. 
-              It’s flexible and built to save you time.
+              Absolutely. Prompts are flexible by design. You can regenerate, edit, or remix them as needed to fit your evolving creative ideas.
             </p>
           </div>
 
@@ -60,18 +57,17 @@ const HelpCenter = () => {
               Do I need an account or subscription?
             </h2>
             <p>
-              No account required. You’ll receive access via a private link and password after purchase — no recurring fees, no signups.
+              No login is required. Vision Prompt GPT is a one-time purchase that gives you private access. No ongoing fees, no account creation needed.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-semibold mb-1 text-gray-900 dark:text-white flex items-center gap-2">
               <LifeBuoy className="w-5 h-5 text-primary" />
-              Need more help?
+              Still need help?
             </h2>
             <p>
-              If you run into issues or need assistance, feel free to reach out through the contact form. 
-              We’re here to make your prompt-building experience smooth and productive.
+              If you experience issues or have questions, reach out using the support contact form. We’re here to help you get the most from your visual prompts.
             </p>
           </div>
         </div>

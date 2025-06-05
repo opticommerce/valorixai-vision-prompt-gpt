@@ -1,5 +1,5 @@
 import { ExtendedFormData, PromptFormData } from "@/types/prompt";
-import { FullDecisionTree } from "@/utils/decisionTreeLogic";
+import { decisionTree } from "@/utils/decisionTreeLogicFromImage";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import ReactSelect from "react-select";
@@ -18,39 +18,21 @@ type Props = {
   errors: Partial<Record<keyof ExtendedFormData, string>>;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSelectChange: (name: keyof ExtendedFormData, value: string | string[]) => void;
-  fields: Record<string, DecisionTreeNode>;
 };
 
 const hasCustomOtherInput = (fieldName: string, formData: ExtendedFormData) => {
-  const fieldsWithOther = ["visualStyle", "composition", "lighting", "mood", "colorPalette"];
+  const fieldsWithOther = ["imageContent", "focalPoint"];
   return fieldsWithOther.includes(fieldName) && formData[fieldName as keyof ExtendedFormData] === "Other";
 };
 
-export default function PromptSectionBasic({
+
+export default function PromptSectionBasicFromImage({
   formData,
   errors,
   handleChange,
   handleSelectChange,
-  fields,
 }: Props) {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [themeKey, setThemeKey] = useState(0);
-
-  useEffect(() => {
-    const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains("dark");
-      setIsDarkMode(isDark);
-      setThemeKey(prev => prev + 1); // forces re-render of ReactSelect
-    });
-
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
+  const fields = decisionTree.basic;
   if (!fields || Object.keys(fields).length === 0) {
     return <p className="text-sm text-gray-400">No fields available.</p>;
   }
@@ -65,7 +47,7 @@ export default function PromptSectionBasic({
         </svg>
         <h3 className="text-base sm:text-lg font-semibold text-gray-800 dark:text-white font-inter">Content & Transformation</h3>
       </div>
-      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">Fill out the core details for your prompt. Optional fields help add nuance.</p>
+      <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2 sm:mb-3">Describe the image and the transformation you want. Optional fields add nuance.</p>
       <div className="space-y-4 sm:space-y-6">
         {Object.entries(fields).map(([fieldName, config]) => (
           <div key={fieldName} className="space-y-1.5">
@@ -73,16 +55,22 @@ export default function PromptSectionBasic({
               <Label htmlFor={fieldName} className="text-secondary dark:text-white font-medium font-inter text-sm sm:text-base">
                 {config.label} {config.optional && <span className="text-xs text-gray-400">(optional)</span>}
               </Label>
-              {['composition','lighting','mood','colorPalette','textureStyle','detailLevel'].includes(fieldName) && (
+              {['imageContext','imageContent','focalPoint','transformationType','modificationLevel','imageEmotion','composition','lighting','mood','colorPalette','textureStyle','detailLevel'].includes(fieldName) && (
                 <span className="relative group">
                   <Info className="w-4 h-4 text-primary cursor-pointer" />
                   <span className="absolute top-full left-0 mt-1 w-56 sm:w-64 text-xs text-white bg-gray-800 px-3 py-2 rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50 pointer-events-none">
-                    {fieldName === 'composition' && 'How the scene is arranged. E.g., rule of thirds, symmetry, dynamic angle.'}
-                    {fieldName === 'lighting' && 'Type of lighting. E.g., natural, soft, dramatic spotlight.'}
-                    {fieldName === 'mood' && 'Emotional tone. E.g., mysterious, joyful, tense.'}
-                    {fieldName === 'colorPalette' && 'Dominant colors. E.g., monochromatic, complementary, pastel.'}
-                    {fieldName === 'textureStyle' && 'Surface quality. E.g., glossy, matte, rough.'}
-                    {fieldName === 'detailLevel' && 'Level of detail. E.g., minimal, ultra-detailed.'}
+                    {fieldName === 'imageContext' && 'Overall context of the image, e.g., location or setting.'}
+                    {fieldName === 'imageContent' && 'What does the image show? Main subject or scene.'}
+                    {fieldName === 'focalPoint' && 'Point of interest that draws attention.'}
+                    {fieldName === 'transformationType' && 'Type of visual change to apply.'}
+                    {fieldName === 'modificationLevel' && 'How intense or imaginative should the transformation be?'}
+                    {fieldName === 'imageEmotion' && 'Emotion the scene should convey or enhance.'}
+                    {fieldName === 'composition' && 'Visual arrangement or structure of the scene.'}
+                    {fieldName === 'lighting' && 'Type of lighting used in the image.'}
+                    {fieldName === 'mood' && 'Emotional tone or feeling of the image.'}
+                    {fieldName === 'colorPalette' && 'Dominant colors or tones in the image.'}
+                    {fieldName === 'textureStyle' && 'Surface quality of objects in the image.'}
+                    {fieldName === 'detailLevel' && 'Level of intricacy and refinement in visual features.'}
                   </span>
                 </span>
               )}
@@ -93,13 +81,12 @@ export default function PromptSectionBasic({
                 placeholder={`Enter ${config.label.toLowerCase()}`}
                 value={formData[fieldName as keyof ExtendedFormData] || ""}
                 onChange={handleChange}
-                className="bg-[#F5F5F5] dark:bg-[#2E2E2E] dark:text-white border border-gray-300 dark:border-gray-600 text-sm sm:text-base placeholder:text-gray-400 dark:placeholder:text-gray-400"
+                className="bg-[#F5F5F5] dark:bg-[#2E2E2E] dark:text-white border border-gray-300 dark:border-gray-600 text-sm sm:text-base"
               />
             )}
             {config.fieldType === "select" && config.options && (
               <>
                 <ReactSelect
-                  key={themeKey}
                   options={config.options.map((opt) => ({ value: opt, label: opt }))}
                   value={formData[fieldName as keyof ExtendedFormData] ? { value: formData[fieldName as keyof ExtendedFormData], label: formData[fieldName as keyof ExtendedFormData] } : null}
                   onChange={(option) => handleSelectChange(fieldName as keyof ExtendedFormData, option?.value || "")}
@@ -107,33 +94,29 @@ export default function PromptSectionBasic({
                   styles={{
                     control: (base) => ({
                       ...base,
-                      backgroundColor: isDarkMode ? "#2E2E2E" : "#F5F5F5",
-                      color: isDarkMode ? "#fff" : "#000",
-                      borderColor: isDarkMode ? "#555" : "#ccc",
+                      backgroundColor: document.documentElement.classList.contains("dark") ? "#2E2E2E" : "#F5F5F5",
+                      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
+                      borderColor: document.documentElement.classList.contains("dark") ? "#555" : "#ccc",
                       boxShadow: "none",
                       fontSize: "0.95rem",
                       minHeight: "2.25rem",
-                      '::placeholder': {
-                        color: isDarkMode ? "#9ca3af" : "#6b7280",
-                        opacity: 1,
-                      },
                       '&:hover': {
-                        borderColor: isDarkMode ? "#888" : "#aaa",
+                        borderColor: document.documentElement.classList.contains("dark") ? "#888" : "#aaa",
                       },
                     }),
                     menu: (base) => ({
                       ...base,
-                      backgroundColor: isDarkMode ? "#1E1E1E" : "#fff",
-                      color: isDarkMode ? "#fff" : "#000",
+                      backgroundColor: document.documentElement.classList.contains("dark") ? "#1E1E1E" : "#fff",
+                      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
                       fontSize: "0.95rem",
                     }),
                     singleValue: (base) => ({
                       ...base,
-                      color: isDarkMode ? "#fff" : "#000",
+                      color: document.documentElement.classList.contains("dark") ? "#fff" : "#000",
                     }),
                     placeholder: (base) => ({
                       ...base,
-                      color: isDarkMode ? "#9ca3af" : "#6b7280",
+                      color: document.documentElement.classList.contains("dark") ? "#aaa" : "#666",
                     }),
                   }}
                 />
@@ -143,7 +126,7 @@ export default function PromptSectionBasic({
                     placeholder={`Enter your custom ${config.label.toLowerCase()}`}
                     value={formData[`${fieldName}Other` as keyof ExtendedFormData] || ""}
                     onChange={handleChange}
-                    className="mt-2 bg-[#F5F5F5] dark:bg-[#2E2E2E] dark:text-white border border-gray-300 dark:border-gray-600 text-sm sm:text-base placeholder:text-gray-400 dark:placeholder:text-gray-400"
+                    className="mt-2 bg-[#F5F5F5] dark:bg-[#2E2E2E] dark:text-white border border-gray-300 dark:border-gray-600 text-sm sm:text-base"
                   />
                 )}
               </>

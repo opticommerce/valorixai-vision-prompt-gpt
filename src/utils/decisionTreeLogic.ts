@@ -1,277 +1,314 @@
-export type ProductCategory =
-  | 'Jewelry'
-  | 'Home Decor'
-  | 'Clothing'
-  | 'Accessories'
-  | 'Beauty'
-  | 'Toys'
-  | 'Digital Product'
-  | 'Other'
-  | 'Art Craft Supplies'
-  | 'Weddings Parties'
-  | 'Vintage Collectibles'
-  | 'Stationery Customization'
-  | 'Occasion'
-  | 'Color';
+export type FieldType = "text" | "select" | "multi-select";
 
 export interface DecisionTreeNode {
-  question: string;
-  fieldType: 'text' | 'select' | 'checkbox' | 'radio';
+  label: string;
+  fieldType: FieldType;
+  optional?: boolean;
   options?: string[];
-  followUp?: Record<string, DecisionTreeNode[]>;
-  subCategory?: string;
-  instructions?: string[];
 }
 
-export const decisionTree: Record<ProductCategory, DecisionTreeNode[]> = {
-    Jewelry: [
-        {
-            question: 'What type of jewelry is it?',
-            fieldType: 'select',
-            options: ['Ring', 'Necklace', 'Bracelet', 'Earrings', 'Other'],
-            followUp: {
-                Ring: [
-                    {
-                        question: 'What material is used?',
-                        fieldType: 'select',
-                        options: ['Gold', 'Silver', 'Platinum', 'Other'],
-                    },
-                ],
-                Necklace: [],
-                Bracelet: [],
-                Earrings: [],
-                Other: [],
-            },
-        },
-    ],
-    'Digital Product': [
-      {
-        question: 'What type of digital product?',
-        fieldType: 'select',
-        options: ['Printable Art', 'Wall Art', 'Planners Journals', 'Logos Branding', 'Other (Custom)'],
-        followUp: {
-          'Printable Art': [
-            {
-              question: 'Is it for home, office, or other?',
-              fieldType: 'select',
-              options: ['Home', 'Office', 'Kids Room', 'Other'],
-            },
-          ],
-          'Wall Art': [
-            {
-              question: 'What style is it?',
-              fieldType: 'select',
-              options: ['Minimalist', 'Boho', 'Abstract', 'Vintage', 'Other'],
-            },
-          ],
-          'Planners Journals': [
-            {
-              question: 'Is it dated or undated?',
-              fieldType: 'radio',
-              options: ['Dated', 'Undated'],
-            },
-          ],
-          'Logos Branding': [
-            {
-              question: 'Is it a premade or custom logo?',
-              fieldType: 'radio',
-              options: ['Premade', 'Custom'],
-            },
-          ],
-          'Other (Custom)': [],
-        },
-      },
-    ],
-    Other: [
-        {
-            question: 'Please describe your product',
-            fieldType: 'text',
-        },
-    ],
-    "Home Decor": [
-      {
-        question: 'What type of home decor item is it?',
-        fieldType: 'select',
-        options: ['Wall Art', 'Candle Holder', 'Vase', 'Decorative Pillow', 'Other'],
-        followUp: {
-          'Wall Art': [
-            {
-              question: 'Is it framed or unframed?',
-              fieldType: 'radio',
-              options: ['Framed', 'Unframed'],
-            },
-          ],
-          'Candle Holder': [],
-          'Vase': [],
-          'Decorative Pillow': [],
-          'Other': [],
-        },
-      },
-    ],
-    Clothing: [
-      {
-        question: 'What type of clothing is it?',
-        fieldType: 'select',
-        options: ['T-Shirt', 'Dress', 'Sweater', 'Hoodie', 'Other'],
-        followUp: {
-          'T-Shirt': [
-            {
-              question: 'What material is it made of?',
-              fieldType: 'select',
-              options: ['Cotton', 'Polyester', 'Blend', 'Other'],
-            },
-          ],
-          'Dress': [
-            {
-              question: 'What style is the dress?',
-              fieldType: 'select',
-              options: ['Casual', 'Formal', 'Boho', 'Other'],
-            },
-          ],
-          'Sweater': [],
-          'Hoodie': [],
-          'Other': [],
-        },
-      },
-    ],
-    Accessories: [
-      {
-        question: 'What type of accessory is it?',
-        fieldType: 'select',
-        options: ['Bag', 'Scarf', 'Hat', 'Belt', 'Other'],
-        followUp: {
-          Bag: [
-            {
-              question: 'What material is the bag made of?',
-              fieldType: 'select',
-              options: ['Leather', 'Fabric', 'Canvas', 'Other'],
-            },
-          ],
-          Scarf: [],
-          Hat: [],
-          Belt: [],
-          Other: [],
-        },
-      },
-    ],
-    Beauty: [
-        {
-            question: 'What type of beauty or personal care product is it?',
-            fieldType: 'select',
-            options: ['Skincare', 'Haircare', 'Makeup', 'Fragrance', 'Other'],
-            followUp: {
-                Skincare: [
-                    {
-                        question: 'Is it a cream, serum, or lotion?',
-                        fieldType: 'select',
-                        options: ['Cream', 'Serum', 'Lotion', 'Other'],
-                    },
-                ],
-                Haircare: [],
-                Makeup: [],
-                Fragrance: [],
-                Other: [],
-            },
-        },
-    ],
-    Toys: [
-      {
-        question: 'What type of toy or entertainment item is it?',
-        fieldType: 'select',
-        options: ['Plush Toy', 'Educational Toy', 'Puzzle', 'Game', 'Other'],
-        followUp: {
-          'Plush Toy': [],
-          'Educational Toy': [],
-          'Puzzle': [],
-          'Game': [],
-          'Other': [],
-        },
-      },
-    ],
-    'Art Craft Supplies': [
-      {
-        question: 'What type of craft supply is it?',
-        fieldType: 'select',
-        options: ['Yarn', 'Paint', 'Brushes', 'Beads', 'Other'],
-      },
-    ],
-    'Weddings Parties': [
-      {
-        question: 'What type of wedding or party item is it?',
-        fieldType: 'select',
-        options: ['Invitation', 'Party Favor', 'Decoration', 'Guestbook', 'Other'],
-        followUp: {
-          'Invitation': [],
-          'Party Favor': [],
-          'Decoration': [],
-          'Guestbook': [],
-          'Other': [],
-        },
-      },
-    ],
-    'Vintage Collectibles': [
-      {
-        question: 'What kind of vintage collectible?',
-        fieldType: 'select',
-        options: ['Home Decor', 'Clothing', 'Jewelry', 'Toys', 'Other'],
-        followUp: {
-          'Home Decor': [
-            {
-              question: 'From which era or decade?',
-              fieldType: 'select',
-              options: ['1950s', '1960s', '1970s', '1980s', 'Other'],
-            },
-          ],
-          'Clothing': [
-            {
-              question: 'Is it men’s or women’s clothing?',
-              fieldType: 'radio',
-              options: ['Men', 'Women', 'Unisex'],
-            },
-          ],
-          'Jewelry': [],
-          'Toys': [],
-          'Other': [],
-        },
-      },
-    ],
-    'Stationery Customization': [
-      {
-        question: 'What type of stationery product?',
-        fieldType: 'select',
-        options: ['Notebook', 'Planner', 'Card', 'Sticker', 'Other'],
-        followUp: {
-          'Notebook': [
-            {
-              question: 'Is it lined, dotted, or blank?',
-              fieldType: 'select',
-              options: ['Lined', 'Dotted', 'Blank', 'Mixed'],
-            },
-          ],
-          'Planner': [
-            {
-              question: 'Is it dated or undated?',
-              fieldType: 'radio',
-              options: ['Dated', 'Undated'],
-            },
-          ],
-          'Card': [],
-          'Sticker': [],
-          'Other': [],
-        },
-      },
-    ],
-    Occasion: [
-      {
-        question: 'What occasion is this product for?',
-        fieldType: 'select',
-        options: ['Birthday', 'Wedding', 'Anniversary', 'Valentine\'s Day', 'Christmas', 'Everyday', 'Other'],
-      },
-    ],
-    Color: [
-      {
-        question: 'What are the main product colors?',
-        fieldType: 'text',
-      },
-    ],
+export type DecisionTree = Record<string, DecisionTreeNode>;
+
+export interface FullDecisionTree {
+  basic: DecisionTree;
+  advanced: DecisionTree;
+  creativeBoost: DecisionTree;
+}
+
+// Visual prompt decision tree (English labels)
+export const decisionTree: FullDecisionTree = {
+  basic: {
+    subject: { label: "Main subject", fieldType: "text" },
+    visualStyle: {
+      label: "Visual style",
+      fieldType: "select",
+      options: [
+        "Cartoon",
+        "Cinematic",
+        "Cyberpunk",
+        "Editorial",
+        "Fantasy",
+        "Impressionist",
+        "Noir",
+        "Oil painting",
+        "Pixel art",
+        "Realistic",
+        "Surrealism",
+        "Vaporwave",
+        "Watercolor",
+        "Other"
+      ]
+    },
+    composition: {
+      label: "Composition",
+      fieldType: "select",
+      options: [
+        "Asymmetrical",
+        "Bird’s-eye view",
+        "Centered",
+        "Close-up",
+        "Double Exposure",
+        "Dynamic angle",
+        "Editorial",
+        "Establishing Shot",
+        "Extreme Close-Up",
+        "Eye-level",
+        "Framed Within Frame",
+        "Golden Ratio",
+        "Leading Lines",
+        "Medium Shot",
+        "Minimalist",
+        "Over-the-shoulder",
+        "Rule of thirds",
+        "Symmetrical",
+        "Top-down",
+        "Worm’s-eye view",
+        "Wide Shot",
+        "Other"
+      ]
+    },
+    lighting: {
+      label: "Lighting",
+      fieldType: "select",
+      options: [
+        "Backlight",
+        "Cinematic",
+        "Dramatic spotlight",
+        "Hard light",
+        "Natural daylight",
+        "Neon glow",
+        "Rembrandt lighting",
+        "Soft light",
+        "Studio lighting",
+        "Other"
+      ]
+    },
+    mood: {
+      label: "Mood / emotion",
+      fieldType: "select",
+      options: [
+        "Anxious",
+        "Calm",
+        "Cheerful",
+        "Dark",
+        "Dramatic",
+        "Epic",
+        "Joyful",
+        "Melancholic",
+        "Mysterious",
+        "Romantic",
+        "Serene",
+        "Tense",
+        "Triumphant",
+        "Other"
+      ]
+    },
+    colorPalette: {
+      label: "Color palette",
+      fieldType: "select",
+      optional: true,
+      options: [
+        "Analogous",
+        "Black & white",
+        "Cool tones",
+        "Complementary",
+        "Duotone",
+        "Earth tones",
+        "Monochrome",
+        "Muted",
+        "Pastel",
+        "Split complementary",
+        "Triadic",
+        "Vibrant",
+        "Warm tones",
+        "Other"
+      ]
+    },
+    context: { label: "Context / setting", fieldType: "text", optional: true },
+    format: {
+      label: "Format / ratio",
+      fieldType: "select",
+      options: ["1:1", "16:9", "4:3", "2:3", "9:16"]
+    },
+  },
+  advanced: {
+    additionalElements: {
+      label: "Additional elements",
+      fieldType: "select",
+      options: [
+        "Abstract shapes",
+        "Architecture",
+        "Dust",
+        "Fire",
+        "Floating objects",
+        "Fog",
+        "Glass shards",
+        "Leaves",
+        "Petals",
+        "Rain",
+        "Reflections",
+        "Smoke",
+        "Snow",
+        "Sparkles",
+        "Other"
+      ]
+    },
+    cameraAngle: {
+      label: "Camera angle",
+      fieldType: "select",
+      options: ["Low angle", "High angle", "Eye level", "Overhead", "Dutch angle"]
+    },
+    lightingMood: {
+      label: "Lighting atmosphere",
+      fieldType: "select",
+      options: ["Moody", "Bright", "High contrast", "Soft ambient", "Harsh shadows"]
+    },
+    textureStyle: {
+      label: "Texture style",
+      fieldType: "select",
+      options: [
+        "Cracked",
+        "Dusty",
+        "Glossy",
+        "Grainy",
+        "Matte",
+        "Organic",
+        "Rough",
+        "Smooth",
+        "Synthetic",
+        "Wet",
+        "Other"
+      ]
+    },
+    detailLevel: {
+      label: "Detail level",
+      fieldType: "select",
+      options: [
+        "High",
+        "Line art",
+        "Minimal",
+        "Photorealistic",
+        "Sketchy",
+        "Ultra detailed",
+        "Other"
+      ]
+    },
+    technique: {
+      label: "Technique",
+      fieldType: "select",
+      options: [
+        "Cross hatching",
+        "Flat shading",
+        "Glazing",
+        "Impasto",
+        "Layered",
+        "Loose brushwork",
+        "Photo bashing",
+        "Stippling",
+        "Vector art",
+        "Other"
+      ]
+    },
+    qualityLevel: {
+      label: "Quality / resolution",
+      fieldType: "select",
+      options: [
+        "Draft",
+        "Standard",
+        "High",
+        "Ultra HD",
+        "4K",
+        "8K",
+        "Photorealistic",
+        "Other"
+      ]
+    },
+    artMedium: {
+      label: "Art medium",
+      fieldType: "multi-select",
+      options: [
+        "Acrylic",
+        "Chalk",
+        "Charcoal",
+        "Collage",
+        "Digital painting",
+        "Ink",
+        "Marker",
+        "Mixed media",
+        "Oil",
+        "Pastel",
+        "Pencil",
+        "Spray paint",
+        "Watercolor",
+        "Other"
+      ]
+    },
+    negativePrompt: {
+      label: "Negative prompt",
+      fieldType: "text",
+      optional: true
+    }
+  },
+  creativeBoost: {
+    additionalElements: {
+      label: "Additional elements",
+      fieldType: "multi-select",
+      options: [
+        "Abstract shapes",
+        "Architecture",
+        "Dust",
+        "Fire",
+        "Floating objects",
+        "Fog",
+        "Glass shards",
+        "Leaves",
+        "Petals",
+        "Rain",
+        "Reflections",
+        "Smoke",
+        "Snow",
+        "Sparkles",
+        "Other"
+      ]
+    },
+    surrealEffects: {
+      label: "Surreal effects",
+      fieldType: "multi-select",
+      options: ["Hidden symbolism", "Invisibility / Ghost", "Morphing & Fusion", "Surreal masks"]
+    },
+    specialLights: {
+      label: "Lighting and special effects",
+      fieldType: "multi-select",
+      options: ["Chromatic aberrations", "Creative negative space", "Fluorescence", "Light painting", "Ultraviolet light"]
+    },
+    rareTextures: {
+      label: "Rare textures",
+      fieldType: "multi-select",
+      options: ["Crystallization", "Ice/metal fusion", "Parchment effect"]
+    },
+    historicalEra: {
+      label: "Historical era",
+      fieldType: "select",
+      options: [
+        "Prehistoric (Stone Age)",
+        "Ancient Egypt",
+        "Classical Greece",
+        "Roman Empire",
+        "Medieval / Middle Ages",
+        "Renaissance",
+        "Baroque",
+        "Victorian Era",
+        "Industrial Revolution",
+        "World War I",
+        "World War II",
+        "Post-war 1950s",
+        "Space Age",
+        "Cyberpunk Future",
+        "Post-Apocalyptic",
+        "Mythical / Fantasy Age"
+      ]
+    }
+  }
 };
+
+export const fields = decisionTree;

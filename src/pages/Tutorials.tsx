@@ -17,86 +17,51 @@ const Tutorials = () => {
     <div>
       <div className="bg-background dark:bg-[#1A1A1A] text-foreground dark:text-white py-24 px-6 transition-colors duration-300">
         <div className="max-w-4xl mx-auto bg-white dark:bg-[#2E2E2E] text-gray-800 dark:text-gray-200 p-6 mt-8 rounded-lg shadow-md transition-colors duration-300">
-          <div className="flex justify-center mb-6 mt-4">
-            <BookOpen className="w-16 h-16 text-primary" />
-          </div>
           <h1 className="text-4xl font-bold mb-8 text-center">
-            How to Use ValorixAI Listing Assistant
+            How to Use Vision Prompt GPT
           </h1>
 
           <div className="space-y-10 text-gray-800 dark:text-gray-200 text-base leading-relaxed">
             <div>
               <h2 className="text-xl font-semibold mt-4 text-gray-900 dark:text-white flex items-center gap-2">
-                <ShoppingBag className="w-5 h-5 text-primary" />
-                Step 1: Add Basic Product Info
+                <Sparkles className="w-5 h-5 text-primary" />
+                Two Prompt Modes: Text & Image
+              </h2>
+              <p className="mt-2">
+                Vision Prompt GPT offers two powerful ways to generate image prompts:
+              </p>
+              <ul className="list-disc list-inside space-y-1 mt-2">
+                <li><strong>Text Mode:</strong> Start from scratch. Fill in the fields manually to generate a complete and highly structured visual prompt.</li>
+                <li><strong>Image Mode:</strong> Upload or paste an image into ChatGPT, then use the tool to extract its visual features and generate a matching prompt. Great for remixing or expanding on visual ideas.</li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <Heart className="w-5 h-5 text-primary" />
+                Tips for Best Results
               </h2>
               <ul className="list-disc list-inside space-y-1 mt-2">
-                <li><strong>Product Name:</strong> e.g., “Minimalist Wall Calendar 2025”</li>
-                <li><strong>Product Type:</strong> Choose <em>physical</em> or <em>digital</em>. This changes the structure of the prompt.</li>
-                <li><strong>Category:</strong> Pick the closest match. If unsure, choose “Other” and type your own.</li>
-                <li><strong>Writing Style / Tone:</strong> Decide if the AI should write in a <em>professional</em>, <em>fun</em>, <em>poetic</em>, or <em>minimal</em> tone.</li>
+                <li>Use the <strong>Text</strong> section if you want full control and creative freedom.</li>
+                <li>Use the <strong>Image</strong> section if you want to build a prompt based on existing visuals.</li>
+                <li>You can copy-paste generated prompts directly into ChatGPT, Midjourney, DALL·E, or any image model.</li>
               </ul>
             </div>
 
             <div>
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                <SlidersHorizontal className="w-5 h-5 text-primary" />
-                Step 2: Choose Your Experience Level
+                <Puzzle className="w-5 h-5 text-primary" />
+                If ChatGPT Remembers Previous Prompts...
               </h2>
               <p className="mt-2">
-                Select how experienced you are with writing or product marketing. This adjusts the complexity and style of the prompt.
-              </p>
-              <ul className="list-disc list-inside space-y-1 mt-1">
-                <li><strong>Beginner:</strong> Simple language, lots of guidance.</li>
-                <li><strong>Intermediate:</strong> Balanced — includes structure and SEO tips.</li>
-                <li><strong>Expert:</strong> Professional-level structure, advanced formatting and strategy.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                <Settings className="w-5 h-5 text-primary" />
-                Step 3: Select Prompt Sections
-              </h2>
-              <p className="mt-2">
-                Use the colored pills to turn sections on or off. You can customize your prompt based on what matters most.
-              </p>
-              <ul className="list-disc list-inside space-y-1 mt-1">
-                <li><strong>Storytelling:</strong> Adds emotional context, customer pain points, and brand inspiration.</li>
-                <li><strong>Optional Enhancements:</strong> Includes occasion, materials, and advanced SEO fields.</li>
-                <li><strong>Add-ons for Extra Power:</strong> Enables advanced modules like Visual Description or Social Captions.</li>
-              </ul>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                <PenLine className="w-5 h-5 text-primary" />
-                Step 4: Fill In the Fields
-              </h2>
-              <p className="mt-2">
-                Fill in all the visible fields — they appear depending on what sections you activated.
-              </p>
-              <p className="mt-2">
-                New fields like <strong>Target Audience</strong> and <strong>Giftable</strong> help tailor the prompt even more. Define who the product is for, or mark it as suitable for gifting — these cues help the AI write persuasive copy that matches real buyer intent.
-              </p>
-              <p className="italic text-sm text-muted-foreground">
-                Example: Under “Inspiration”, write something like “Inspired by vintage French botanical prints and nature walks.”
-              </p>
-            </div>
-
-            <div>
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                <Rocket className="w-5 h-5 text-primary" />
-                Step 5: Generate Your Prompt
-              </h2>
-              <p className="mt-2">
-                Click the green “Generate Prompt” button. The tool will format everything into a clean, professional AI prompt ready to copy.
+                Sometimes ChatGPT may retain elements from past prompts and unexpectedly include them in new outputs.
               </p>
               <p className="mt-1">
-                Paste it into ChatGPT, Claude, Gemini, or any other AI assistant you use.
+                If this happens, type: <code>“Forget everything above and start from scratch.”</code> before pasting your new prompt. This resets the context and ensures accurate generation.
               </p>
             </div>
           </div>
+
           <div className="flex justify-center mt-12">
             <motion.a
               whileHover={{

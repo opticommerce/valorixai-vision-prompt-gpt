@@ -1,72 +1,41 @@
+// ⚠️ Questo componente è attualmente disattivato.
+// Viene mantenuto nel progetto per eventuale riuso o riferimento futuro.
+
 import React, { useState } from "react";
 import { generatePrompt } from "../../utils/generatePrompt";
 import { Button } from "../ui/button";
-import { Hammer, SlidersHorizontal, Brain } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { PromptFormData } from "@/types/prompt";
+import { Hammer, Brain } from "lucide-react";
+import { motion } from "framer-motion";
+import { ExtendedFormData } from "@/types/prompt";
 
-// Componenti modulari
-import PromptSectionBasic from "./PromptSectionBasic";
-import PromptSectionAdvanced from "./PromptSectionAdvanced";
-import PromptSectionStorytelling from "./PromptSectionStorytelling";
-import PromptModulesSelector from "./PromptModulesSelector";
-
+/*
 interface PromptFormProps {
-  onGeneratePrompt?: (formData: PromptFormData) => void;
+  onGeneratePrompt?: (formData: ExtendedFormData) => void;
 }
 
 const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
-  const [formData, setFormData] = useState<PromptFormData>({
-    productName: "",
-    productType: "",
-    category: "",
-    customCategory: "",
-    materials: "",
-    customMaterial: "",
-    tone: "",
-    color: "",
-    occasion: "",
-    customOccasion: "",
-    specialFeatures: [],
-    seoFocus: "",
-    experienceLevel: "intermediate",
+  const [formData, setFormData] = useState<ExtendedFormData>({
+    subject: "",
+    visualStyle: "",
+    composition: "",
+    lighting: "",
+    mood: "",
+    colorPalette: "",
+    context: "",
+    format: "",
+    experienceLevel: "",
+    generatedPrompt: undefined,
   });
 
-  const [errors, setErrors] = useState<Partial<Record<keyof PromptFormData, string>>>({});
-  
-  const [showStorytelling, setShowStorytelling] = useState(false);
-  const [showOptional, setShowOptional] = useState(false);
-  const [showAddons, setShowAddons] = useState(false);
+  const [errors, setErrors] = useState<Partial<Record<keyof ExtendedFormData, string>>>({});
 
-  const categories = {
-    physical: [
-      "jewelry_accessories",
-      "fashion_clothing",
-      "home_decor",
-      "art_craft_supplies",
-      "weddings_parties",
-      "toys_entertainment",
-      "vintage_collectibles",
-      "beauty_personal_care",
-      "stationery_customization",
-      "other",
-    ],
-    digital: [
-      "printable_art",
-      "wall_art",
-      "planners_journals",
-      "logos_branding",
-      "other",
-    ],
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    if (errors[name as keyof PromptFormData]) {
+    if (errors[name as keyof ExtendedFormData]) {
       setErrors((prev) => ({
         ...prev,
         [name]: "",
@@ -74,17 +43,11 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
     }
   };
 
-  const handleSelectChange = (name: keyof PromptFormData, value: string) => {
-    setFormData((prev) => {
-      const updatedData = {
-        ...prev,
-        [name]: value,
-      };
-      if (name === "productType") {
-        updatedData.category = "";
-      }
-      return updatedData;
-    });
+  const handleSelectChange = (name: keyof ExtendedFormData, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
 
     if (errors[name]) {
       setErrors((prev) => ({
@@ -94,28 +57,11 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
     }
   };
 
-  const handleSpecialFeaturesChange = (feature: string) => {
-    setFormData((prev) => {
-      const features = prev.specialFeatures.includes(feature)
-        ? prev.specialFeatures.filter((f) => f !== feature)
-        : [...prev.specialFeatures, feature];
-      return { ...prev, specialFeatures: features };
-    });
-  };
-
   const validateForm = (): boolean => {
-    const newErrors: Partial<Record<keyof PromptFormData, string>> = {};
+    const newErrors: Partial<Record<keyof ExtendedFormData, string>> = {};
 
-    if (!formData.productName.trim()) newErrors.productName = "Product name is required";
+    if (!formData.subject.trim()) newErrors.subject = "Subject is required";
     if (!formData.experienceLevel) newErrors.experienceLevel = "Experience level is required";
-    if (!formData.category) newErrors.category = "Category is required";
-    if (formData.category === "other" && !formData.customCategory?.trim()) {
-      newErrors.customCategory = "Custom category is required";
-    }
-    if (formData.productType === "physical" && !formData.materials.trim()) {
-      newErrors.materials = "Materials are required";
-    }
-    if (!formData.tone) newErrors.tone = "Tone preference is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -124,24 +70,14 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (validateForm()) {
-      const finalFormData = { ...formData } as PromptFormData;
-      finalFormData.category =
-        formData.category === "other" && formData.customCategory
-          ? formData.customCategory
-          : formData.category;
-      if (formData.productType === "digital") finalFormData.materials = "";
+      const finalFormData = { ...formData } as ExtendedFormData;
 
-      // Ensure "Giftable" is preserved correctly in special features
-      if (!finalFormData.specialFeatures.includes("Giftable") && formData.specialFeatures.includes("Giftable")) {
-        finalFormData.specialFeatures.push("Giftable");
-      }
-      
-      console.log("Submitting with formData:", formData);
-      
+      console.log("Submitting with formData:", finalFormData);
+
       const generatedPrompt = generatePrompt(finalFormData);
-      
+
       console.log("Generated prompt output:", generatedPrompt);
-      
+
       onGeneratePrompt({ ...finalFormData, generatedPrompt });
       setTimeout(() => {
         setFormData((prev) => ({ ...prev, generatedPrompt: undefined }));
@@ -150,140 +86,153 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
   };
 
   return (
-    <div className="w-full max-w-3xl p-10 bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md text-secondary dark:text-white">
+    <section className="w-full flex flex-col items-center justify-center px-0 sm:px-0 lg:px-0">
+      <div className="w-full p-10 bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-md text-secondary dark:text-white">
       
       <h2 className="text-2xl font-bold mb-6 text-center text-secondary dark:text-white font-inter flex items-center justify-center gap-2">
         <Hammer className="h-6 w-6 text-primary" />
         Build Your Text Input
       </h2>
 
-      <div className="mb-6 border border-gray-200 dark:border-gray-600 rounded-xl p-6 relative overflow-visible">
-        <h3 className="text-base sm:text-lg font-semibold mb-2 text-secondary dark:text-white flex items-center gap-2">
-          <SlidersHorizontal className="w-5 h-5 text-primary" />
-          Select Prompt Sections
-          <span className="ml-1 relative">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4 text-primary cursor-pointer peer"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-              <line x1="12" y1="8" x2="12" y2="8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-              <line x1="12" y1="12" x2="12" y2="16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            </svg>
-            <span className="absolute top-full mt-2 left-0 w-64 text-xs text-white bg-gray-800 px-3 py-2 rounded shadow-lg opacity-0 peer-hover:opacity-100 transition-opacity duration-300 ease-in-out delay-100 z-[100] pointer-events-none">
-              Activate or deactivate optional sections to expand your prompt with extra context and guidance.
-            </span>
-          </span>
-        </h3>
-        <p className="text-sm text-muted-foreground mb-4">
-          Choose which optional prompt sections to include.
-        </p>
-        <div className="flex justify-center gap-4">
-          <button
-            type="button"
-            className={`w-40 py-2 rounded-md border text-sm font-medium transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-md ${
-              showStorytelling ? 'bg-primary text-white border-primary' : 'text-primary border-gray-300 hover:bg-primary/10'
-            }`}
-            onClick={() => setShowStorytelling(prev => !prev)}
-          >
-            Storytelling
-          </button>
-          <button
-            type="button"
-            className={`w-40 py-2 rounded-md border text-sm font-medium transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-md ${
-              showOptional ? 'bg-primary text-white border-primary' : 'text-primary border-gray-300 hover:bg-primary/10'
-            }`}
-            onClick={() => setShowOptional(prev => !prev)}
-          >
-            Optional
-          </button>
-          <button
-            type="button"
-            className={`w-40 py-2 rounded-md border text-sm font-medium transition-transform duration-200 ease-in-out transform hover:scale-105 hover:shadow-md ${
-              showAddons ? 'bg-primary text-white border-primary' : 'text-primary border-gray-300 hover:bg-primary/10'
-            }`}
-            onClick={() => setShowAddons(prev => !prev)}
-          >
-            Extra Power
-          </button>
-        </div>
-      </div>
-
       <form onSubmit={handleSubmit} className="space-y-5">
-        <PromptSectionBasic
-          formData={formData}
-          errors={errors}
-          handleChange={handleChange}
-          handleSelectChange={handleSelectChange}
-          categories={categories[formData.productType as "physical" | "digital"] || []}
-          categoryPlaceholder="Select the category"
-        />
 
-        <AnimatePresence mode="wait">
-          {showOptional && (
-            <motion.div
-              layout
-              key="optional"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              <PromptSectionAdvanced
-                formData={formData}
-                handleChange={handleChange}
-                handleSelectChange={handleSelectChange}
-                toggleFeature={handleSpecialFeaturesChange}
-                isVisible={showOptional}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <div className="space-y-4">
+          <div>
+            <label htmlFor="subject" className="block text-sm font-medium text-secondary dark:text-white">
+              Subject
+            </label>
+            <input
+              type="text"
+              name="subject"
+              id="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white ${
+                errors.subject ? "border-red-500" : ""
+              }`}
+            />
+            {errors.subject && <p className="mt-1 text-xs text-red-500">{errors.subject}</p>}
+          </div>
 
-        <AnimatePresence mode="wait">
-          {showStorytelling && (
-            <motion.div
-              layout
-              key="storytelling"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              <PromptSectionStorytelling
-                formData={formData}
-                handleChange={handleChange}
-                isVisible={showStorytelling}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+          <div>
+            <label htmlFor="visualStyle" className="block text-sm font-medium text-secondary dark:text-white">
+              Visual Style
+            </label>
+            <input
+              type="text"
+              name="visualStyle"
+              id="visualStyle"
+              value={formData.visualStyle}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
 
-        <AnimatePresence mode="wait">
-          {showAddons && (
-            <motion.div
-              layout
-              key="addons"
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+          <div>
+            <label htmlFor="composition" className="block text-sm font-medium text-secondary dark:text-white">
+              Composition
+            </label>
+            <input
+              type="text"
+              name="composition"
+              id="composition"
+              value={formData.composition}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="lighting" className="block text-sm font-medium text-secondary dark:text-white">
+              Lighting
+            </label>
+            <input
+              type="text"
+              name="lighting"
+              id="lighting"
+              value={formData.lighting}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="mood" className="block text-sm font-medium text-secondary dark:text-white">
+              Mood
+            </label>
+            <input
+              type="text"
+              name="mood"
+              id="mood"
+              value={formData.mood}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="colorPalette" className="block text-sm font-medium text-secondary dark:text-white">
+              Color Palette
+            </label>
+            <input
+              type="text"
+              name="colorPalette"
+              id="colorPalette"
+              value={formData.colorPalette}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="context" className="block text-sm font-medium text-secondary dark:text-white">
+              Context
+            </label>
+            <input
+              type="text"
+              name="context"
+              id="context"
+              value={formData.context}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="format" className="block text-sm font-medium text-secondary dark:text-white">
+              Format
+            </label>
+            <input
+              type="text"
+              name="format"
+              id="format"
+              value={formData.format}
+              onChange={handleChange}
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="experienceLevel" className="block text-sm font-medium text-secondary dark:text-white">
+              Experience Level
+            </label>
+            <select
+              id="experienceLevel"
+              name="experienceLevel"
+              value={formData.experienceLevel}
+              onChange={(e) => handleSelectChange("experienceLevel", e.target.value)}
+              className={`mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary dark:bg-[#2A2A2A] dark:border-gray-600 dark:text-white ${
+                errors.experienceLevel ? "border-red-500" : ""
+              }`}
             >
-              <PromptModulesSelector
-                formData={formData}
-                toggleModule={(mod) => {
-                  const updated = formData.modules?.includes(mod)
-                    ? (formData.modules || []).filter((m) => m !== mod)
-                    : [...(formData.modules || []), mod];
-                  setFormData({ ...formData, modules: updated });
-                }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+              <option value="">Select experience level</option>
+              <option value="beginner">Beginner</option>
+              <option value="intermediate">Intermediate</option>
+              <option value="advanced">Advanced</option>
+            </select>
+            {errors.experienceLevel && <p className="mt-1 text-xs text-red-500">{errors.experienceLevel}</p>}
+          </div>
+        </div>
 
         {formData.generatedPrompt && (
           <motion.div
@@ -317,20 +266,15 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
           type="button"
           onClick={() => {
             setFormData({
-              productName: "",
-              productType: "",
-              category: "",
-              customCategory: "",
-              materials: "",
-              customMaterial: "",
-              tone: "",
-              color: "",
-              occasion: "",
-              customOccasion: "",
-              specialFeatures: [],
-              seoFocus: "",
-              experienceLevel: "intermediate",
-              modules: [],
+              subject: "",
+              visualStyle: "",
+              composition: "",
+              lighting: "",
+              mood: "",
+              colorPalette: "",
+              context: "",
+              format: "",
+              experienceLevel: "",
               generatedPrompt: undefined,
             });
           }}
@@ -339,8 +283,10 @@ const PromptForm = ({ onGeneratePrompt = () => {} }: PromptFormProps) => {
           Clear All Fields
         </button>
       </form>
-    </div>
+      </div>
+    </section>
   );
 };
 
 export default PromptForm;
+*/

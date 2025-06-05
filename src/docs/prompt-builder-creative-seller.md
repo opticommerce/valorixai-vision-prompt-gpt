@@ -1,66 +1,93 @@
-# 🌟 Creative Seller Prompt Builder Setup Template
+# 🧠 ValorixAI Vision Prompt GPT – Setup Template
 
 ## 1. 🧠 General Info
 
-- **Tool Name:** 
-- **Target Audience/Niche:** 
+- **Tool Name:** ValorixAI Vision Prompt GPT
+- **Target Audience/Niche:** Creators, designers, marketers, AI artists
 - **What the prompt will generate:** 
-  - [ ] Title
-  - [ ] Description
-  - [ ] Tags
-  - [ ] Other: ___
+  - [x] Image prompt (Markdown optimized)
+  - [x] Structured visual parameters
+  - [x] Style and context configurations
+  - [x] Optional: Pro-level creative modifiers
 
 ---
 
-## 2. 🛠️ Required Inputs (Always visible)
+## 2. 🛠️ Required Inputs (Blocco Base – Livello 1)
 
-List all input fields necessary for the user.
-
-| Field Name        | Input Type         | Placeholder / Example               | Notes                       |
-|------------------|--------------------|-------------------------------------|-----------------------------|
-| product_name      | text               | "Handmade silver ring"              | Required                    |
-| tone              | dropdown (5 values)| "Creative, Formal, Minimal..."      | Required                    |
-| category          | dropdown + custom  | "Jewelry, Decor, Other"             | Triggers sub-branches       |
-| ...               | ...                | ...                                 | ...                         |
+| Field Name       | Input Type         | Placeholder / Example              | Notes                           |
+|------------------|--------------------|------------------------------------|----------------------------------|
+| subject           | text               | "A woman walking in a cyber city"  | Required                         |
+| visualStyle       | dropdown           | "Cyberpunk, Anime, Realistic..."   | Required                         |
+| composition       | dropdown           | "Panoramic, Close-up, Isometric..."| Required                         |
+| lighting          | dropdown           | "Neon, Natural, Cinematic..."      | Required                         |
+| mood              | dropdown           | "Mysterious, Peaceful, Energetic..."| Required                      |
+| colorPalette      | dropdown (optional)| "Neon blue and violet"             | Optional                         |
+| context           | text (optional)    | "A futuristic Asian metropolis"    | Optional                         |
+| format            | dropdown           | "16:9, Square, Vertical..."        | Required                         |
 
 ---
 
-## 3. 🌳 Decision Tree Logic (Conditional Fields)
-
-Describe dynamic logic here. Add as many branches as needed.
+## 3. 🌳 Decision Tree Logic (Advanced and Creative Levels)
 
 ```yaml
-category:
-  Jewelry:
-    - subcategory: ["Rings", "Necklaces", "Bracelets"]
-    - material: ["Gold", "Silver", "Other"]
-  Digital Product:
-    - digital_type: ["Printable Wall Art", "Ebook", "Preset"]
-    - software_required: text
+advanced:
+  additionalElements: text
+  cameraAngle: dropdown
+  lightingMood: dropdown
+  texture: dropdown
+  detailLevel: dropdown
+  technique: dropdown
+  quality: dropdown
+  negativePrompt: text
+
+creativeBoost:
+  surrealEffects:
+    - "Morfismo & Fusione"
+    - "Maschere surreali"
+    - "Invisibilità / Fantasma"
+    - "Simbolismo nascosto"
+  specialLights:
+    - "Luce ultravioletta"
+    - "Fluorescenza"
+    - "Light painting"
+    - "Anomalie cromatiche"
+    - "Spazio negativo creativo"
+  rareTextures:
+    - "Cristallizzazione"
+    - "Effetto pergamena"
+    - "Fusione ghiaccio/metallo"
+  narrativeContext:
+    - "Epoca storica"
+    - "Influenza culturale"
+    - "Fonte di ispirazione"
+    - "Elemento narrativo (storytelling)"
 ```
 
 ---
 
-## 4. 🎯 Custom Rules / Niche-Specific Logic
+## 4. 🎯 Modalità e Logiche Attivabili
 
-- If `tone = Creative`, favor adjectives like "vibrant", "expressive"
-- If `category = Photography`, suggest including image resolution and style
-- If `digital_type = Preset`, ask for software compatibility
+- Base: sempre visibile
+- Avanzato: toggle “Controllo avanzato”
+- Boost Creativo Pro: visibile solo in modalità PRO
 
 ---
 
-## 5. ✍️ Prompt Blueprint (Optional)
-
-Define how the prompt should be generated using selected inputs.
+## 5. ✍️ Prompt Blueprint – Output Finale
 
 ```text
-"Generate a {tone} product description for a {material} {product_name} in the {category} category, ideal for {occasion}. Include relevant keywords: {keywords}"
+Crea un'immagine di {subject}, in stile {visualStyle}, con composizione {composition}, illuminazione {lighting} e atmosfera {mood}.
+Palette: {colorPalette}. Ambientazione: {context}. Formato: {format}.
+Dettagli: {additionalElements}, Angolo: {cameraAngle}, Texture: {texture}, Tecnica: {technique}, Qualità: {quality}.
+Effetti creativi: {surrealEffects}, {specialLights}, {rareTextures}, {narrativeContext}.
+Prompt negativo: {negativePrompt}.
 ```
 
 ---
 
-## 6. 🧩 Extras (optional but useful)
+## 6. 🧩 Extra Controlli
 
-- Keywords to emphasize
-- Language or tone restrictions
-- User guidance or tips
+- Selezione multipla per Boost Creativo
+- Valori predefiniti per utenti rapidi
+- Modalità scura e chiara supportata
+- Output ottimizzato per ChatGPT Vision
