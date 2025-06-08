@@ -11,6 +11,21 @@ export default function PromptPage() {
   const [errors, setErrors] = useState({});
   const [mode, setMode] = useState<"text" | "image">("text");
 
+  // Password protection state
+  const [password, setPassword] = useState("");
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [error, setError] = useState("");
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === "vpb-access-0625") {
+      setIsAuthenticated(true);
+      setError("");
+    } else {
+      setError("Incorrect password");
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -38,6 +53,38 @@ export default function PromptPage() {
     });
     setFormData(merged);
     setGeneratedPrompt((randomData as any).generatedPrompt || "");
+  }
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0e0e0e]">
+        <form
+          onSubmit={handlePasswordSubmit}
+          className="bg-white dark:bg-[#181818] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg px-8 py-8 flex flex-col items-center w-full max-w-xs"
+        >
+          <h2 className="text-2xl font-bold mb-4 text-primary-text dark:text-white font-inter text-center">
+            Enter Password
+          </h2>
+          <input
+            type="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+            placeholder="Password"
+            className="w-full px-4 py-2 mb-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#232323] text-gray-900 dark:text-white font-inter focus:outline-none focus:ring-2 focus:ring-primary transition"
+            autoFocus
+          />
+          <button
+            type="submit"
+            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 rounded-lg transition-all duration-200 font-inter"
+          >
+            Submit
+          </button>
+          {error && (
+            <div className="mt-3 text-red-500 text-sm font-medium text-center">{error}</div>
+          )}
+        </form>
+      </div>
+    );
   }
 
   return (

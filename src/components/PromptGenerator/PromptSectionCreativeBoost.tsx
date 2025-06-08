@@ -110,9 +110,8 @@ const PromptSectionCreativeBoost: React.FC<Props> = ({
                   }}
                   menuPortalTarget={typeof window !== 'undefined' ? document.body : null}
                   menuPosition="absolute"
-                  menuPlacement="auto"
                   styles={{
-                    menuPortal: (base) => ({ ...base, zIndex: 40 })
+                    menuPortal: (base) => ({ ...base, zIndex: 9999 })
                   }}
                   classNames={{
                     control: () =>
