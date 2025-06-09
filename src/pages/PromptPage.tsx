@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PromptBuilder from "@/components/PromptGenerator/PromptBuilder";
 import { fields } from "@/utils/decisionTreeLogic";
 import Layout from "@/components/Layout";
@@ -13,14 +13,24 @@ export default function PromptPage() {
 
   // Password protection state
   const [password, setPassword] = useState("");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState("");
+  const [checkedAuth, setCheckedAuth] = useState(false);
+
+  // Check localStorage for authentication on mount
+  useEffect(() => {
+    setCheckedAuth(true);
+  }, []);
+
+  const isAuthenticated = typeof window !== "undefined" && localStorage.getItem("authenticated") === "true";
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === "vpb-access-0625") {
-      setIsAuthenticated(true);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("authenticated", "true");
+      }
       setError("");
+      window.location.reload(); // reload to re-trigger auth check
     } else {
       setError("Incorrect password");
     }
@@ -53,6 +63,10 @@ export default function PromptPage() {
     });
     setFormData(merged);
     setGeneratedPrompt((randomData as any).generatedPrompt || "");
+  }
+
+  if (!checkedAuth) {
+    return null; // Prevents flicker on first load
   }
 
   if (!isAuthenticated) {
