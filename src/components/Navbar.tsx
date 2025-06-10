@@ -247,6 +247,23 @@ const Navbar = ({
                 Logout
               </button>
             )}
+            {/* Mobile Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className="flex items-center gap-2 text-sm font-medium text-black dark:text-white hover:text-primary dark:hover:text-primary transition-colors mt-4 border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#232323] rounded-full px-4 py-2 font-inter font-medium shadow-sm hover:bg-gray-100 dark:hover:bg-[#333]"
+            >
+              {isDark ? (
+                <>
+                  <Moon className="w-4 h-4 text-primary" />
+                  <span>Dark Mode</span>
+                </>
+              ) : (
+                <>
+                  <Sun className="w-4 h-4 text-yellow-400" />
+                  <span>Light Mode</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
       )}
