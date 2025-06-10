@@ -84,7 +84,7 @@ const Navbar = ({
 
         {/* Desktop Navigation */}
         {showMenu && (
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden lg:flex items-center space-x-6">
             {showHomeLink && (
               <Link
                 to="/"
@@ -185,12 +185,12 @@ const Navbar = ({
         )}
 
         {/* Mobile Menu Button */}
-        <div className="md:hidden">
+        <div className="flex lg:hidden">
           <Button
             variant="ghost"
             size="icon"
             onClick={toggleMenu}
-          className="text-white hover:text-primary dark:text-white"
+            className="text-white hover:text-primary dark:text-white"
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </Button>
@@ -199,7 +199,7 @@ const Navbar = ({
 
       {/* Mobile Navigation */}
       {isMenuOpen && showMenu && (
-        <div className="md:hidden bg-white dark:bg-[#1A1A1A] w-full py-4 px-4 border-t border-gray-200 dark:border-gray-600 shadow-md">
+        <div className="flex lg:hidden bg-white dark:bg-[#1A1A1A] w-full py-4 px-4 border-t border-gray-200 dark:border-gray-600 shadow-md">
           <div className="flex flex-col space-y-4">
             {showHomeLink && (
               <Link
