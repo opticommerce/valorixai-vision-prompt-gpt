@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Typewriter from "react-typewriter-effect";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface HeroSectionProps {
   title?: string;
@@ -28,6 +29,8 @@ const HeroSection = ({
   const [isDark, setIsDark] = useState(
     typeof window !== 'undefined' && document.documentElement.classList.contains('dark')
   );
+
+  const { user } = useAuth();
 
   useEffect(() => {
     // Wait for the title animation to finish (0.6s)
@@ -111,7 +114,13 @@ const HeroSection = ({
                 rotate: -1,
               }}
               className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 font-inter flex items-center justify-center group relative overflow-hidden"
-              onClick={onCtaClick ? onCtaClick : () => (window.location.href = '/prompt-builder')}
+              onClick={() => {
+                if (user) {
+                  window.location.href = "/prompt";
+                } else {
+                  window.location.href = "/login";
+                }
+              }}
             >
               <span className="absolute inset-0 bg-gradient-to-r from-primary/30 to-primary/70 opacity-0 group-hover:opacity-100 transition duration-500 rounded-full blur-sm z-[-1]" />
               <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">

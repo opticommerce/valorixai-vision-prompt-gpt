@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/utils/firebase";
 import PromptBuilder from "@/components/PromptGenerator/PromptBuilder";
 import { fields } from "@/utils/decisionTreeLogic";
 import Layout from "@/components/Layout";
 import PromptOutput from "@/components/PromptGenerator/PromptOutput";
 import generateRandomPromptData from "@/utils/generateRandomPromptData";
+import { useAuth } from "@/contexts/AuthContext";
+import { getUserData, incrementPromptCount, MAX_DEMO_PROMPTS } from "../utils/firebaseUserData";
 
 export default function PromptPage() {
   const [generatedPrompt, setGeneratedPrompt] = useState("");
@@ -11,29 +16,36 @@ export default function PromptPage() {
   const [errors, setErrors] = useState({});
   const [mode, setMode] = useState<"text" | "image">("text");
 
-  // Password protection state
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [checkedAuth, setCheckedAuth] = useState(false);
+  const [promptCount, setPromptCount] = useState<number>(0);
+  const [isPro, setIsPro] = useState<boolean>(false);
+  const [loadingUserData, setLoadingUserData] = useState<boolean>(true);
 
-  // Check localStorage for authentication on mount
+  const navigate = useNavigate();
+  const { user, loading } = useAuth();
+
   useEffect(() => {
-    setCheckedAuth(true);
-  }, []);
-
-  const isAuthenticated = typeof window !== "undefined" && localStorage.getItem("authenticated") === "true";
-
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === "vpb-access-0625") {
-      if (typeof window !== "undefined") {
-        localStorage.setItem("authenticated", "true");
+    let ignore = false;
+    const fetchUserData = async () => {
+      if (user && user.uid) {
+        setLoadingUserData(true);
+        const data = await getUserData(user.uid);
+        if (!ignore && data) {
+          setPromptCount(typeof data.promptCount === "number" ? data.promptCount : 0);
+          setIsPro(!!data.isPro);
+        }
+        setLoadingUserData(false);
+      } else {
+        setPromptCount(0);
+        setIsPro(false);
+        setLoadingUserData(false);
       }
-      setError("");
-      window.location.reload(); // reload to re-trigger auth check
-    } else {
-      setError("Incorrect password");
-    }
+    };
+    fetchUserData();
+    return () => { ignore = true; };
+  }, [user]);
+
+  const showLimitReached = () => {
+    window.alert("You have reached the demo limit. Unlock unlimited prompts!");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +56,11 @@ export default function PromptPage() {
     setFormData({ ...formData, [name]: value });
   };
 
-  function handleRandomPromptClick() {
+  async function handleRandomPromptClick() {
+    if (!isPro && promptCount >= MAX_DEMO_PROMPTS) {
+      showLimitReached();
+      return;
+    }
     const randomData = generateRandomPromptData(mode);
     const merged = { ...formData };
     Object.entries(randomData).forEach(([key, value]) => {
@@ -63,42 +79,10 @@ export default function PromptPage() {
     });
     setFormData(merged);
     setGeneratedPrompt((randomData as any).generatedPrompt || "");
-  }
-
-  if (!checkedAuth) {
-    return null; // Prevents flicker on first load
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-[#0e0e0e]">
-        <form
-          onSubmit={handlePasswordSubmit}
-          className="bg-white dark:bg-[#181818] border border-gray-200 dark:border-gray-700 rounded-2xl shadow-lg px-8 py-8 flex flex-col items-center w-full max-w-xs"
-        >
-          <h2 className="text-2xl font-bold mb-4 text-primary-text dark:text-white font-inter text-center">
-            Enter Password
-          </h2>
-          <input
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            placeholder="Password"
-            className="w-full px-4 py-2 mb-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-[#232323] text-gray-900 dark:text-white font-inter focus:outline-none focus:ring-2 focus:ring-primary transition"
-            autoFocus
-          />
-          <button
-            type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-2 rounded-lg transition-all duration-200 font-inter"
-          >
-            Submit
-          </button>
-          {error && (
-            <div className="mt-3 text-red-500 text-sm font-medium text-center">{error}</div>
-          )}
-        </form>
-      </div>
-    );
+    if (user && user.uid) {
+      await incrementPromptCount(user.uid);
+      setPromptCount((prev) => prev + 1);
+    }
   }
 
   return (
@@ -125,7 +109,14 @@ export default function PromptPage() {
             setFormData={setFormData}
             onRandomPrompt={handleRandomPromptClick}
           />
-          <PromptOutput prompt={generatedPrompt} isLoading={false} handleRandomPromptClick={handleRandomPromptClick} />
+          <PromptOutput 
+            prompt={generatedPrompt} 
+            isLoading={false} 
+            handleRandomPromptClick={handleRandomPromptClick}
+            promptCount={promptCount}
+            MAX_DEMO_PROMPTS={MAX_DEMO_PROMPTS}
+            isPro={isPro}
+          />
         </div>
       </main>
     </Layout>

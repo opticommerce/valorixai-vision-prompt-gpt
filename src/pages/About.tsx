@@ -1,8 +1,10 @@
 import React from "react";
 import { Lightbulb, ListChecks, Sparkles, Zap } from "lucide-react";
 import { motion } from "framer-motion";
+import { useAuth } from "@/contexts/AuthContext";
 
 const About = () => {
+  const { user } = useAuth();
   return (
     <div className="min-h-screen bg-background dark:bg-[#1A1A1A] px-6 py-12 pt-32 transition-colors duration-300">
       <div className="bg-white dark:bg-[#2E2E2E] text-gray-800 dark:text-gray-200 rounded-lg shadow-md p-6 max-w-4xl mx-auto transition-colors duration-300">
@@ -71,25 +73,6 @@ const About = () => {
           *Vision Prompt GPT is an independent tool and is not affiliated with OpenAI, ChatGPT, or other third-party AI platforms. Images shown are for illustrative purposes only.
         </p>
 
-        <div className="text-center mt-8">
-          <motion.a
-            whileHover={{
-              scale: 1.06,
-              boxShadow: "0px 0px 18px rgba(132, 204, 22, 0.6)",
-            }}
-            whileTap={{
-              scale: 0.95,
-              rotate: -1,
-            }}
-            href="/prompt-builder"
-            className="inline-block px-6 py-3 bg-primary text-white rounded-full text-base font-medium shadow-md transition-all duration-300 font-inter mx-auto group relative overflow-hidden"
-          >
-            <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
-              Start Using the Tool
-            </span>
-          </motion.a>
-        </div>
       </div>
     </div>
   );

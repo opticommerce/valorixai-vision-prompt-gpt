@@ -12,25 +12,51 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Examples from "./pages/examples";
 import MainLayout from "./layouts/MainLayout";
 import MinimalLayout from "./layouts/MinimalLayout";
+import Login from "./pages/auth/Login";
+import Signup from "./pages/auth/Signup";
+import AuthForm from "./components/Auth/AuthForm";
+import { AuthProvider } from "./contexts/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   console.log("⚡ App montata");
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<MainLayout><Home /></MainLayout>} />
-        <Route path="/about" element={<MainLayout><About /></MainLayout>} />
-        <Route path="/help-center" element={<MainLayout><HelpCenter /></MainLayout>} />
-        <Route path="/terms" element={<MainLayout><Terms /></MainLayout>} />
-        <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicy /></MainLayout>} />
-        <Route path="/tutorials" element={<MainLayout><Tutorials /></MainLayout>} />
-        <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
-        <Route path="/prompt-builder" element={<MinimalLayout><PromptPage /></MinimalLayout>} />
-        <Route path="/examples" element={<MainLayout><Examples /></MainLayout>} />
-        <Route path="*" element={<div>404 - Pagina non trovata</div>} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Suspense fallback={null}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<MainLayout><Home /></MainLayout>} />
+            <Route path="/about" element={<MainLayout><About /></MainLayout>} />
+            <Route path="/help-center" element={<MainLayout><HelpCenter /></MainLayout>} />
+            <Route path="/terms" element={<MainLayout><Terms /></MainLayout>} />
+            <Route path="/privacy-policy" element={<MainLayout><PrivacyPolicy /></MainLayout>} />
+            <Route path="/tutorials" element={<MainLayout><Tutorials /></MainLayout>} />
+            <Route path="/contact" element={<MainLayout><Contact /></MainLayout>} />
+            <Route
+              path="/prompt"
+              element={
+                <ProtectedRoute>
+                  <MinimalLayout><PromptPage /></MinimalLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/prompt-builder"
+              element={
+                <ProtectedRoute>
+                  <MinimalLayout><PromptPage /></MinimalLayout>
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/examples" element={<MainLayout><Examples /></MainLayout>} />
+            <Route path="/login" element={<MinimalLayout><Login /></MinimalLayout>} />
+            <Route path="/signup" element={<MinimalLayout><Signup /></MinimalLayout>} />
+            <Route path="*" element={<div>404 - Pagina non trovata</div>} />
+          </Routes>
+        </Router>
+      </Suspense>
+    </AuthProvider>
   );
 }
 

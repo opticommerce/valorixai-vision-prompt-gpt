@@ -61,26 +61,6 @@ const Tutorials = () => {
               </p>
             </div>
           </div>
-
-          <div className="flex justify-center mt-12">
-            <motion.a
-              whileHover={{
-                scale: 1.06,
-                boxShadow: "0px 0px 18px rgba(132, 204, 22, 0.6)",
-              }}
-              whileTap={{
-                scale: 0.95,
-                rotate: -1,
-              }}
-              href="/prompt-builder"
-              className="inline-block px-6 py-3 bg-primary text-white rounded-full text-base font-medium shadow-md transition-all duration-300 font-inter mx-auto group relative overflow-hidden"
-            >
-              <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
-                Start Using the Tool
-              </span>
-            </motion.a>
-          </div>
         </div>
       </div>
     </div>

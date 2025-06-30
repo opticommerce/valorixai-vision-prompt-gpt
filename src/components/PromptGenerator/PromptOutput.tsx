@@ -8,12 +8,20 @@ interface PromptOutputProps {
   prompt: string;
   isLoading?: boolean;
   handleRandomPromptClick?: () => void;
+  promptCount: number;
+  MAX_DEMO_PROMPTS: number;
+  isPro: boolean;
+  loadingUserData?: boolean;
 }
 
 const PromptOutput = ({
   prompt,
   isLoading = false,
   handleRandomPromptClick,
+  promptCount,
+  MAX_DEMO_PROMPTS,
+  isPro,
+  loadingUserData = false,
 }: PromptOutputProps) => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
@@ -52,10 +60,12 @@ const PromptOutput = ({
         className="relative w-full h-full bg-white dark:bg-[#1E1E1E] p-4 sm:p-6 md:p-8 rounded-xl shadow-md hover:shadow-lg flex flex-col border border-border dark:border-gray-700 transition-all duration-300"
       >
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-5 gap-3 sm:gap-0">
-          <h2 className="text-xl sm:text-2xl font-semibold text-[#222] dark:text-white flex items-center gap-2">
-            <ClipboardEdit size={22} className="text-brand" />
-            Your Optimized Text Input
-          </h2>
+          <div>
+            <h2 className="text-xl sm:text-2xl font-semibold text-[#222] dark:text-white flex items-center gap-2">
+              <ClipboardEdit size={22} className="text-brand" />
+              Your Optimized Text Input
+            </h2>
+          </div>
           <motion.button
             whileHover={{ scale: 1.06 }}
             whileTap={{ scale: 0.96 }}
@@ -97,18 +107,33 @@ const PromptOutput = ({
           )}
         </div>
 
-        <div className="flex flex-col sm:flex-row justify-end mt-3 sm:mt-4 gap-2">
-          <motion.button
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.96 }}
-            onClick={handleRandomPromptClick}
-            className="flex items-center gap-2 rounded-full bg-brand text-white hover:bg-brand/90 transition-all duration-300 px-4 sm:px-5 py-2 text-base shadow-md group relative overflow-hidden"
-            type="button"
-          >
-            <Sparkles size={18} className="group-hover:animate-pulse" />
-            <span>Random Prompt</span>
-            <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          </motion.button>
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mt-4">
+          <div className="text-sm text-gray-700 dark:text-gray-200 font-inter font-medium rounded-full px-4 py-2 bg-primary/10 w-fit">
+            {isPro ? "Unlimited prompts" : `${Math.max(0, MAX_DEMO_PROMPTS - promptCount)} prompts left`}
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href="https://your-gumroad-link.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 rounded-full bg-primary hover:bg-primary/90 text-white font-inter font-medium px-4 py-2 text-sm transition-all duration-300 shadow-md"
+            >
+              <CheckCircle size={16} className="text-white" />
+              Unlock Unlimited
+            </a>
+            <motion.button
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.96 }}
+              onClick={handleRandomPromptClick}
+              className="flex items-center gap-2 rounded-full bg-primary text-white hover:bg-primary/90 transition-all duration-300 px-4 py-2 text-sm font-inter font-medium shadow-md group relative overflow-hidden"
+              type="button"
+              disabled={loadingUserData || (!isPro && promptCount >= MAX_DEMO_PROMPTS)}
+            >
+              <Sparkles size={18} className="group-hover:animate-pulse" />
+              <span>Random Prompt</span>
+              <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </motion.button>
+          </div>
         </div>
 
         <div className="mt-4 sm:mt-5 text-sm sm:text-base text-muted-foreground dark:text-gray-400">

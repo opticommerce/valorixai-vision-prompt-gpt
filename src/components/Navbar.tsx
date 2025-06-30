@@ -1,8 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { Button } from "./ui/button";
 import { motion } from "framer-motion";
+import { signOut } from "firebase/auth";
+import { auth } from "@/utils/firebase";
 const Logo = "/valorixlogodefinitivo-trasparente.png";
 
 interface NavbarProps {
@@ -16,26 +20,20 @@ interface NavbarProps {
 const Navbar = ({
   logoText = "ValorixAI Vision Prompt GPT",
   ctaText = "Start Building",
-  ctaLink = "/prompt-builder",
+  ctaLink = "/prompt",
   showMenu = true,
   showHomeLink = false,
 }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const navigate = typeof window !== 'undefined' && (window as any).location ? undefined : useNavigate();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       document.documentElement.classList.add("dark");
       setIsDark(true);
-    }
-    // Check authentication
-    if (localStorage.getItem("authenticated") === "true") {
-      setIsAuthenticated(true);
-    } else {
-      setIsAuthenticated(false);
     }
   }, []);
 
@@ -56,12 +54,20 @@ const Navbar = ({
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("authenticated");
-    if (typeof window !== 'undefined' && window.location) {
-      window.location.reload();
-    } else if (navigate) {
-      navigate("/");
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
+  const handleStartBuilding = () => {
+    if (user) {
+      navigate("/prompt");
+    } else {
+      navigate("/login");
     }
   };
 
@@ -117,15 +123,6 @@ const Navbar = ({
             >
               Help Center
             </Link>
-            {/* Logout Button (between Home and Theme toggle) */}
-            {isAuthenticated && (
-              <button
-                onClick={handleLogout}
-                className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#232323] text-gray-700 dark:text-gray-200 rounded-full px-4 py-1.5 text-xs sm:text-sm font-inter font-medium shadow-sm hover:bg-gray-100 dark:hover:bg-[#333] transition-all duration-200"
-              >
-                Logout
-              </button>
-            )}
             <button
               onClick={toggleTheme}
               className="flex items-center gap-2 text-sm font-medium text-white dark:text-white hover:text-primary dark:hover:text-primary transition-colors"
@@ -142,45 +139,39 @@ const Navbar = ({
                 </>
               )}
             </button>
-            {window.location.pathname === "/prompt-builder" ? (
-              <Link to="/">
-                <motion.button
-                  whileHover={{
-                    scale: 1.06,
-                    boxShadow: "0px 0px 18px rgba(132, 204, 22, 0.6)",
-                  }}
-                  whileTap={{
-                    scale: 0.95,
-                    rotate: -1,
-                  }}
-                  className="px-8 py-4 bg-primary hover:bg-primary/90 text-white font-semibold text-base rounded-full shadow-lg transition-all duration-300 font-inter flex items-center justify-center gap-2 group relative overflow-hidden"
-                >
-                  <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
-                    Home
-                  </span>
-                </motion.button>
-              </Link>
-            ) : (
-              <Link to="/prompt-builder">
-                <motion.button
-                  whileHover={{
-                    scale: 1.06,
-                    boxShadow: "0px 0px 18px rgba(132, 204, 22, 0.6)",
-                  }}
-                  whileTap={{
-                    scale: 0.95,
-                    rotate: -1,
-                  }}
-                  className="px-8 py-4 bg-primary hover:bg-primary/90 text-white font-semibold text-base rounded-full shadow-lg transition-all duration-300 font-inter flex items-center justify-center gap-2 group relative overflow-hidden"
-                >
-                  <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
-                    Start Building
-                  </span>
-                </motion.button>
-              </Link>
-            )}
+            <motion.button
+              whileHover={{
+                scale: 1.06,
+                boxShadow: "0px 0px 18px rgba(132, 204, 22, 0.6)",
+              }}
+              whileTap={{
+                scale: 0.95,
+                rotate: -1,
+              }}
+              className="px-8 py-4 bg-primary hover:bg-primary/90 text-white font-semibold text-base rounded-full shadow-lg transition-all duration-300 font-inter flex items-center justify-center gap-2 group relative overflow-hidden"
+              onClick={handleStartBuilding}
+            >
+              <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <span className="relative z-10 group-hover:tracking-wide transition-all duration-300">
+                Start Building
+              </span>
+            </motion.button>
+            {user ? (
+              <motion.button
+                onClick={handleLogout}
+                whileHover={{
+                  scale: 1.06,
+                  boxShadow: "0px 0px 12px rgba(132, 204, 22, 0.5)", // primary glow
+                }}
+                whileTap={{
+                  scale: 0.95,
+                  rotate: -1,
+                }}
+                className="px-6 py-2 bg-primary hover:bg-primary/90 text-white font-medium rounded-full shadow-md transition duration-300 font-inter"
+              >
+                Logout
+              </motion.button>
+            ) : null}
           </div>
         )}
 
@@ -239,7 +230,7 @@ const Navbar = ({
               Help Center
             </Link>
             {/* Mobile Logout Button */}
-            {isAuthenticated && (
+            {user && (
               <button
                 onClick={handleLogout}
                 className="border border-gray-300 dark:border-gray-600 bg-white dark:bg-[#232323] text-gray-700 dark:text-gray-200 rounded-full px-4 py-1.5 text-xs sm:text-sm font-inter font-medium shadow-sm hover:bg-gray-100 dark:hover:bg-[#333] transition-all duration-200 mt-2"

@@ -7,7 +7,7 @@
     "skipLibCheck": true,
     "noEmitOnError": false,
 
-    "moduleResolution": "bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -16,10 +16,11 @@
     
     "strict": false,
     "jsxImportSource": "react",
+    "baseUrl": ".",
+    "types": ["vite/client", "jest"],
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["jest"],
     "esModuleInterop": true
   },
   "include": ["src"],
