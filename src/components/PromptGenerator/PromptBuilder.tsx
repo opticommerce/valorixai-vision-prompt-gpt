@@ -27,6 +27,7 @@ interface Props {
   setGeneratedPrompt: React.Dispatch<React.SetStateAction<string>>;
   setFormData: React.Dispatch<React.SetStateAction<ExtendedFormData>>;
   onRandomPrompt?: () => void;
+  handleGeneratePrompt: (prompt: string) => Promise<void>;
 }
 
 function fillRequiredFields<T extends object>(obj: T, required: string[]): T {
@@ -49,6 +50,7 @@ const PromptBuilder = ({
   setGeneratedPrompt,
   setFormData,
   onRandomPrompt,
+  handleGeneratePrompt,
 }: Props) => {
   const [mode, setMode] = React.useState<"text" | "image">("text");
   // Experience level selector logic (inline, not a separate component)
