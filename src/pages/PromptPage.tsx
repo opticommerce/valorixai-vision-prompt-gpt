@@ -64,7 +64,7 @@ export default function PromptPage() {
 
   async function handleRandomPromptClick() {
     if (!isPro && promptCount >= MAX_DEMO_PROMPTS) {
-      showLimitReached();
+      setTimeout(() => showLimitReached(), 0);
       return;
     }
     const randomData = generateRandomPromptData(mode);
@@ -92,6 +92,11 @@ export default function PromptPage() {
   }
 
   async function handleGeneratePrompt(prompt: string) {
+    if (!isPro && promptCount >= MAX_DEMO_PROMPTS) {
+      showLimitReached();
+      return;
+    }
+
     setGeneratedPrompt(prompt);
     if (!isPro && user && user.uid) {
       await incrementPromptCount(user.uid);
@@ -132,6 +137,7 @@ export default function PromptPage() {
             MAX_DEMO_PROMPTS={MAX_DEMO_PROMPTS}
             isPro={isPro}
             loadingUserData={loadingUserData}
+            showLimitReached={showLimitReached}
           />
         </div>
       </main>

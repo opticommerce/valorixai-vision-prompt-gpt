@@ -17,12 +17,14 @@ import Signup from "./pages/auth/Signup";
 import AuthForm from "./components/Auth/AuthForm";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { Toaster } from "@/components/ui/toaster";
 
 function App() {
   console.log("⚡ App montata");
 
   return (
     <AuthProvider>
+      <Toaster />
       <Suspense fallback={null}>
         <Router>
           <Routes>

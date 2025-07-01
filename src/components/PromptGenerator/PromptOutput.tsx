@@ -12,6 +12,7 @@ interface PromptOutputProps {
   MAX_DEMO_PROMPTS: number;
   isPro: boolean;
   loadingUserData?: boolean;
+  showLimitReached?: () => void;
 }
 
 const PromptOutput = ({
@@ -22,6 +23,7 @@ const PromptOutput = ({
   MAX_DEMO_PROMPTS,
   isPro,
   loadingUserData = false,
+  showLimitReached,
 }: PromptOutputProps) => {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
@@ -124,10 +126,16 @@ const PromptOutput = ({
             <motion.button
               whileHover={{ scale: 1.06 }}
               whileTap={{ scale: 0.96 }}
-              onClick={handleRandomPromptClick}
+              onClick={() => {
+                if (!isPro && promptCount >= MAX_DEMO_PROMPTS) {
+                  setTimeout(() => showLimitReached?.(), 0);
+                  return;
+                }
+                handleRandomPromptClick?.();
+              }}
               className="flex items-center gap-2 rounded-full bg-primary text-white hover:bg-primary/90 transition-all duration-300 px-4 py-2 text-sm font-inter font-medium shadow-md group relative overflow-hidden"
               type="button"
-              disabled={loadingUserData || (!isPro && promptCount >= MAX_DEMO_PROMPTS)}
+              disabled={loadingUserData}
             >
               <Sparkles size={18} className="group-hover:animate-pulse" />
               <span>Random Prompt</span>
