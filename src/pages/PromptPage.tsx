@@ -9,6 +9,7 @@ import PromptOutput from "@/components/PromptGenerator/PromptOutput";
 import generateRandomPromptData from "@/utils/generateRandomPromptData";
 import { useAuth } from "@/contexts/AuthContext";
 import { getUserData, incrementPromptCount, MAX_DEMO_PROMPTS } from "../utils/firebaseUserData";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function PromptPage() {
   const [generatedPrompt, setGeneratedPrompt] = useState("");
@@ -22,6 +23,7 @@ export default function PromptPage() {
 
   const navigate = useNavigate();
   const { user, loading } = useAuth();
+  const { toast } = useToast();
 
   useEffect(() => {
     let ignore = false;
@@ -45,7 +47,11 @@ export default function PromptPage() {
   }, [user]);
 
   const showLimitReached = () => {
-    window.alert("You have reached the demo limit. Unlock unlimited prompts!");
+    toast({
+      title: "Demo limit reached",
+      description: "You've used all your free prompts. Unlock unlimited access!",
+      variant: "destructive",
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +85,15 @@ export default function PromptPage() {
     });
     setFormData(merged);
     setGeneratedPrompt((randomData as any).generatedPrompt || "");
-    if (user && user.uid) {
+    if (!isPro && user && user.uid) {
+      await incrementPromptCount(user.uid);
+      setPromptCount((prev) => prev + 1);
+    }
+  }
+
+  async function handleGeneratePrompt(prompt: string) {
+    setGeneratedPrompt(prompt);
+    if (!isPro && user && user.uid) {
       await incrementPromptCount(user.uid);
       setPromptCount((prev) => prev + 1);
     }
@@ -108,6 +122,7 @@ export default function PromptPage() {
             setGeneratedPrompt={setGeneratedPrompt}
             setFormData={setFormData}
             onRandomPrompt={handleRandomPromptClick}
+            handleGeneratePrompt={handleGeneratePrompt}
           />
           <PromptOutput 
             prompt={generatedPrompt} 
@@ -116,6 +131,7 @@ export default function PromptPage() {
             promptCount={promptCount}
             MAX_DEMO_PROMPTS={MAX_DEMO_PROMPTS}
             isPro={isPro}
+            loadingUserData={loadingUserData}
           />
         </div>
       </main>
