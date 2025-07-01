@@ -256,12 +256,12 @@ const PromptBuilder = ({
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97, rotate: -1 }}
-          onClick={() => {
+          onClick={async () => {
             const prompt =
               mode === "text"
                 ? generatePrompt(formData)
                 : generatePromptFromImage(formData);
-            setGeneratedPrompt(prompt);
+            await handleGeneratePrompt(prompt);
           }}
           className="w-full mt-6 sm:mt-8 bg-primary hover:bg-primary/90 text-white font-semibold py-3 sm:py-4 rounded-full text-base shadow-lg transition-all duration-300 flex items-center justify-center gap-2 group relative overflow-hidden"
         >
