@@ -12,46 +12,54 @@ const Terms = () => {
 
         <div className="space-y-6 text-gray-800 dark:text-gray-200 text-sm leading-relaxed">
           <p>
-            Welcome to <strong>Vision Prompt GPT</strong>. By using this tool, you agree to the following Terms of Service.
-            Please read them carefully. If you disagree with any part of these terms, you must not use the tool.
+            Welcome to <strong>ValorixAI Vision Prompt GPT</strong>. By accessing or using this application, you agree to the following Terms of Service. Please read them carefully.
+            If you do not agree, you may not use the service.
           </p>
 
-          <h2 className="text-xl font-semibold mt-4">1. Tool Usage</h2>
+          <h2 className="text-xl font-semibold mt-4">1. Account Registration</h2>
           <p>
-            You are granted a <strong>non-exclusive</strong>, <strong>non-transferable</strong> license to use this tool for creating AI prompts
-            to support your AI-based image generation and creative projects. You may use the generated content for personal or commercial purposes.
+            To use the tool, you must create an account using your email and password. You are responsible for maintaining the confidentiality of your login credentials and for all activity under your account.
           </p>
 
-          <h2 className="text-xl font-semibold mt-4">2. License and Intellectual Property</h2>
+          <h2 className="text-xl font-semibold mt-4">2. Tool Usage</h2>
           <p>
-            You own the rights to the content you generate. However, <strong>you may not resell, redistribute, or repackage</strong> the tool itself,
-            its components, source code, or access credentials.
+            You are granted a <strong>non-exclusive</strong>, <strong>non-transferable</strong> license to use the tool for creating prompts
+            to support your creative and AI-generation projects. Generated prompts may be used for personal or commercial purposes.
           </p>
 
-          <h2 className="text-xl font-semibold mt-4">3. Access and Credentials</h2>
+          <h2 className="text-xl font-semibold mt-4">3. Subscription and Access</h2>
           <p>
-            Access to the tool is granted via a private link and password. <strong>Do not share access</strong> with others unless explicitly allowed.
-            Unauthorized sharing may result in access being revoked.
+            Free users are limited to a number of prompt generations. Users who purchase Pro access via Gumroad receive unlimited generation.
+            Misuse, sharing of Pro access, or exploitation of the service may result in suspension.
           </p>
 
-          <h2 className="text-xl font-semibold mt-4">4. No Guarantees or Warranties</h2>
+          <h2 className="text-xl font-semibold mt-4">4. Data and Privacy</h2>
           <p>
-            While the tool is designed to improve your productivity and content quality, we do not guarantee specific outcomes,
-            business success, or performance. Use it at your own discretion.
+            We collect your email and prompt usage data via Firebase for the purpose of authentication and feature access. By using this tool, you consent to this data being stored securely and used according to our <a href="/privacy-policy" className="underline">Privacy Policy</a>.
           </p>
 
-          <h2 className="text-xl font-semibold mt-4">5. Updates and Changes</h2>
+          <h2 className="text-xl font-semibold mt-4">5. Email Communication</h2>
           <p>
-            These terms may be updated at any time. Continued use of the tool implies acceptance of the current terms and any changes made.
+            By registering or opting in via landing pages, you may receive occasional product updates, resources, or offers. You can unsubscribe at any time via the link in any email.
+          </p>
+
+          <h2 className="text-xl font-semibold mt-4">6. Limitation of Liability</h2>
+          <p>
+            The tool is provided "as is" without warranty of any kind. We do not guarantee any specific outcome or result from using the tool. You use the service at your own risk.
+          </p>
+
+          <h2 className="text-xl font-semibold mt-4">7. Changes to These Terms</h2>
+          <p>
+            We reserve the right to update or modify these terms at any time. Continued use of the service after changes constitutes acceptance of those changes.
           </p>
 
           <p className="text-sm text-gray-500 dark:text-gray-400 italic mb-8">
-            *This product is not affiliated with, endorsed by, or officially connected with OpenAI, Midjourney, DALL·E, or any other external AI platforms.
+            *This product is not affiliated with, endorsed by, or officially connected with OpenAI, Midjourney, DALL·E, or any other third-party AI providers.
           </p>
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default Terms;

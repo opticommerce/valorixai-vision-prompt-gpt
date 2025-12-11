@@ -11,6 +11,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,9 +79,31 @@ const AuthForm: React.FC<AuthFormProps> = ({ type, onSubmit }) => {
           />
         </div>
       )}
+      {type === "signup" && (
+        <div className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+          <input
+            type="checkbox"
+            id="terms"
+            checked={acceptedTerms}
+            onChange={e => setAcceptedTerms(e.target.checked)}
+            required
+            className="mt-1"
+          />
+          <label htmlFor="terms">
+            I agree to the{" "}
+            <a href="/terms" target="_blank" className="underline text-primary">
+              Terms of Service
+            </a>{" "}
+            and{" "}
+            <a href="/privacy-policy" target="_blank" className="underline text-primary">
+              Privacy Policy
+            </a>.
+          </label>
+        </div>
+      )}
       <button
         type="submit"
-        disabled={loading}
+        disabled={loading || (type === "signup" && !acceptedTerms)}
         className="w-full px-8 py-3 bg-primary hover:bg-primary/90 text-white font-semibold text-base rounded-full shadow-lg transition-all duration-300 font-inter flex items-center justify-center gap-2 group relative overflow-hidden focus:outline-none focus:ring-2 focus:ring-primary disabled:opacity-60 disabled:cursor-not-allowed"
       >
         <span className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

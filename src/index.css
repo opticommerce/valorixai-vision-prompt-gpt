@@ -6,17 +6,17 @@
 
 @layer base {
   :root {
-    --background: 36 37% 97%; /* Light Cream (#FBF8F4) */
-    --foreground: 210 10% 15%;
+    --background: 0 0% 100%; /* Pure White */
+    --foreground: 0 0% 3.9%; /* Very Dark (almost black) */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 0 0% 3.9%; /* Very Dark (almost black) */
 
-    --popover: 36 37% 97%;
-    --popover-foreground: 210 10% 15%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%; /* Very Dark (almost black) */
 
     --primary: 90 100% 50%; /* Lime Green (#7FFF00) */
-    --primary-foreground: 0 0% 10%;
+    --primary-foreground: 0 0% 9%; /* Dark for contrast with lime green */
 
     --secondary: 210 45% 10%; /* Midnight Blue (#0D1B2A) */
     --secondary-foreground: 0 0% 100%;
@@ -25,7 +25,7 @@
     --muted-foreground: 0 0% 40%;
 
     --accent: 90 100% 50%;
-    --accent-foreground: 0 0% 10%;
+    --accent-foreground: 0 0% 9%; /* Dark for contrast */
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 20% 98%;

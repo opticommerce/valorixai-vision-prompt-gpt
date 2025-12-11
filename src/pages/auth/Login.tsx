@@ -3,10 +3,14 @@ import AuthForm from "@/components/Auth/AuthForm";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LoginPage() {
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { user, loading } = useAuth();
+
+  console.log("[Login] Render:", { user, loading });
 
   const handleLogin = async (email: string, password: string) => {
     try {
